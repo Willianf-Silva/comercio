@@ -11,4 +11,6 @@ public interface UsuarioService {
 
 	UsuarioResponseDTO buscarPorId(Long id) throws Exception;
 
+	void inativarUsuario(Long id) throws Exception;
+
 }

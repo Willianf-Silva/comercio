@@ -26,4 +26,8 @@ public interface UsuarioResourceSwagger {
 	@ApiOperation("Buscar um usuário através do identificador.")
 	public ResponseEntity<UsuarioResponseDTO> buscarPorId(
 			@ApiParam(value = "ID do usuário", example = "01") Long id) throws Exception;
+	
+	@ApiOperation("Inativar um usuário através do identificador.")
+	public ResponseEntity<UsuarioResponseDTO> inativarUsuario(
+			@ApiParam(value = "ID do usuário", example = "01") Long id) throws Exception;
 }

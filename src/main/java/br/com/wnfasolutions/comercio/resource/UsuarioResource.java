@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,5 +51,11 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 	public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		UsuarioResponseDTO response = usuarioService.buscarPorId(id);
 		return responderSucessoComItem(response);
+	}
+	
+	@PatchMapping("/inativar/{id}")
+	public ResponseEntity<UsuarioResponseDTO> inativarUsuario(@PathVariable Long id) throws Exception {
+		usuarioService.inativarUsuario(id);
+		return responderSucesso();
 	}
 }

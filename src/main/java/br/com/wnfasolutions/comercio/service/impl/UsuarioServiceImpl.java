@@ -56,6 +56,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return convertToResponse(usuarioDO);
 	}
 
+	@Override
+	public void inativarUsuario(Long id) throws Exception {
+		alterarSituacaoUsuario(id, Situacao.INATIVO);
+	}
+
+	private void alterarSituacaoUsuario(Long id, Situacao situacao) throws Exception {
+		UsuarioDO usuarioDO = verificarSeExiste(id);
+		usuarioDO.setSituacao(situacao);
+		usuarioRepository.save(usuarioDO);
+	}
+
 	private UsuarioDO verificarSeExiste(Long id) throws ResourceNotFoundException {
 		Optional<UsuarioDO> usuarioOptional = usuarioRepository.findById(id);
 		if (usuarioOptional.isEmpty()) {
