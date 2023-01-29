@@ -6,7 +6,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +35,13 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 		UsuarioResponseDTO response = usuarioService.cadastrarUsuario(usuarioRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
 		return responderItemCriado(response);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<UsuarioResponseDTO> updateVeterinarian(@PathVariable Long id,
+			@RequestBody @Valid UsuarioRequestDTO usuarioRequestDTO) throws Exception {
+
+		UsuarioResponseDTO response = usuarioService.atualizarUsuario(id, usuarioRequestDTO);
+		return responderSucessoComItem(response);
 	}
 }

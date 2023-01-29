@@ -7,4 +7,6 @@ public interface UsuarioService {
 
 	UsuarioResponseDTO cadastrarUsuario(UsuarioRequestDTO usuarioRequestDTO) throws Exception;
 
+	UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) throws Exception;
+
 }

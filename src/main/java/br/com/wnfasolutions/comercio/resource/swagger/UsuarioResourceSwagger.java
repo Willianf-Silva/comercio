@@ -17,4 +17,9 @@ public interface UsuarioResourceSwagger {
 	public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(
 			@ApiParam("Informações do usuários que será incluído.") UsuarioRequestDTO usuarioRequestDTO,
 			HttpServletResponse resp) throws Exception;
+	
+	@ApiOperation("Atualizar um usuário existente.")
+	public ResponseEntity<UsuarioResponseDTO> updateVeterinarian(
+			@ApiParam(value = "ID do usuário", example = "01") Long id,
+			@ApiParam("Informações do usuários que será incluído.") UsuarioRequestDTO usuarioRequestDTO) throws Exception;
 }
