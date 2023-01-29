@@ -50,6 +50,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return convertToResponse(usuarioSalvo);
 	}
 
+	@Override
+	public UsuarioResponseDTO buscarPorId(Long id) throws Exception {
+		UsuarioDO usuarioDO = verificarSeExiste(id);
+		return convertToResponse(usuarioDO);
+	}
+
 	private UsuarioDO verificarSeExiste(Long id) throws ResourceNotFoundException {
 		Optional<UsuarioDO> usuarioOptional = usuarioRepository.findById(id);
 		if (usuarioOptional.isEmpty()) {

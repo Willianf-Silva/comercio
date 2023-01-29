@@ -9,4 +9,6 @@ public interface UsuarioService {
 
 	UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) throws Exception;
 
+	UsuarioResponseDTO buscarPorId(Long id) throws Exception;
+
 }

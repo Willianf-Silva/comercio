@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,10 +39,16 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UsuarioResponseDTO> updateVeterinarian(@PathVariable Long id,
+	public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable Long id,
 			@RequestBody @Valid UsuarioRequestDTO usuarioRequestDTO) throws Exception {
 
 		UsuarioResponseDTO response = usuarioService.atualizarUsuario(id, usuarioRequestDTO);
+		return responderSucessoComItem(response);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
+		UsuarioResponseDTO response = usuarioService.buscarPorId(id);
 		return responderSucessoComItem(response);
 	}
 }
