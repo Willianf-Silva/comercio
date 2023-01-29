@@ -58,4 +58,10 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 		usuarioService.inativarUsuario(id);
 		return responderSucesso();
 	}
+	
+	@PatchMapping("/ativar/{id}")
+	public ResponseEntity<UsuarioResponseDTO> ativarUsuario(@PathVariable Long id) throws Exception {
+		usuarioService.ativarUsuario(id);
+		return responderSucesso();
+	}
 }

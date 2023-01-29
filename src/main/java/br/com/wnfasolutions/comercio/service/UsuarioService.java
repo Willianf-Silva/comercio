@@ -13,4 +13,6 @@ public interface UsuarioService {
 
 	void inativarUsuario(Long id) throws Exception;
 
+	void ativarUsuario(Long id) throws Exception;
+
 }

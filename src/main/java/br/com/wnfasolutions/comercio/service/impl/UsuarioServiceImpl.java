@@ -61,6 +61,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		alterarSituacaoUsuario(id, Situacao.INATIVO);
 	}
 
+	@Override
+	public void ativarUsuario(Long id) throws Exception {
+		alterarSituacaoUsuario(id, Situacao.ATIVO);		
+	}
+
 	private void alterarSituacaoUsuario(Long id, Situacao situacao) throws Exception {
 		UsuarioDO usuarioDO = verificarSeExiste(id);
 		usuarioDO.setSituacao(situacao);
