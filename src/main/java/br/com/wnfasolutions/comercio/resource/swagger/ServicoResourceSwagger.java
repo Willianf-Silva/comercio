@@ -10,7 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(tags = "Servico")
+@Api(tags = "Servicos")
 public interface ServicoResourceSwagger {
 
 	@ApiOperation("Incluir um novo servico.")
