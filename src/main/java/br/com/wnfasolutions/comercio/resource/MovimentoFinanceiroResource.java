@@ -1,5 +1,7 @@
 package br.com.wnfasolutions.comercio.resource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
+import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDTO;
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
 import br.com.wnfasolutions.comercio.resource.swagger.MovimentoFinanceiroResourceSwagger;
@@ -45,6 +48,12 @@ public class MovimentoFinanceiroResource extends ResourceBase<MovimentoFinanceir
 
 		MovimentoFinanceiroResponseDTO response = movimentoFinanceiroService.atualizarMovimentoFinanceiro(id, movimentoFinanceiroRequestDTO);
 		return responderSucessoComItem(response);
+	}
+	
+	@PutMapping("/pagamentos")
+	public ResponseEntity<?> pagarMovimentos(@RequestBody List<MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception{
+		movimentoFinanceiroService.pagarMovimentos(movimentosFinanceiroPagamentoDTO);
+		return responderSucessoSemItem();
 	}
 	
 	@GetMapping("/{id}")

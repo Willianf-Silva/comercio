@@ -1,6 +1,9 @@
 package br.com.wnfasolutions.comercio.service;
 
+import java.util.List;
+
 import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
+import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDTO;
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 
 public interface MovimentoFinanceiroService {
@@ -14,5 +17,7 @@ public interface MovimentoFinanceiroService {
 	void inativarMovimentoFinanceiro(Long id) throws Exception;
 
 	void ativarMovimentoFinanceiro(Long id) throws Exception;
+
+	void pagarMovimentos(List<MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception;
 
 }

@@ -1,10 +1,13 @@
 package br.com.wnfasolutions.comercio.resource.swagger;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 
 import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
+import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDTO;
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +25,10 @@ public interface MovimentoFinanceiroResourceSwagger {
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> atualizarMovimentoFinanceiro(
 			@ApiParam(value = "ID do movimento financeiro", example = "01") Long id,
 			@ApiParam("Informações do movimento financeiro que será incluído.") MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception;
+	
+	@ApiOperation("Atualiza as informações de pagamento para uma lista de movimentos financeiro existente.")
+	public ResponseEntity<?> pagarMovimentos(
+			@ApiParam(value = "Lista de movimentos financeiro", example = "01") List<MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception;
 	
 	@ApiOperation("Buscar um movimento financeiro através do identificador.")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> buscarPorId(

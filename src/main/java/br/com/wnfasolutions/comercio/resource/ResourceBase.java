@@ -29,6 +29,10 @@ public abstract class ResourceBase<T> {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
+	protected ResponseEntity<T> responderSucessoSemItem() {
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
 	protected ResponseEntity<T> responderSucessoComItem(T object) {
 		return ResponseEntity.status(HttpStatus.OK).body(object);
 	}

@@ -1,13 +1,17 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
+import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDTO;
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.entity.MovimentoFinanceiroDO;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
@@ -42,6 +46,15 @@ public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
 		BeanUtils.copyProperties(movimentoFinanceiroRequestDTO, movimentoFinanceiroDO, "id");
 		MovimentoFinanceiroDO movimentoFinanceiroSalvo = movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
 		return convertToResponse(movimentoFinanceiroSalvo);
+	}
+
+	@Override
+	public void pagarMovimentos(List<@Valid MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception {
+		for (MovimentosFinanceiroPagamentoDTO movimentoPagarDTO : movimentosFinanceiroPagamentoDTO) {
+			MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(movimentoPagarDTO.getIdMovimentoFinanceiro());
+			movimentoFinanceiroDO.setDataPagamento(LocalDate.now());
+			movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
+		}
 	}
 
 	@Override
