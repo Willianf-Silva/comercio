@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import br.com.wnfasolutions.comercio.enuns.FormaPagamento;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.enuns.Status;
 import br.com.wnfasolutions.comercio.enuns.TipoMovimento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,7 +65,15 @@ public class MovimentoFinanceiroDO {
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	
 	public Boolean ativo() {
 		return getSituacao().equals(Situacao.ATIVO);
+	}
+
+	public Boolean isFinalizado() {
+		return getStatus().equals(Status.FINALIZADO);
 	}
 }

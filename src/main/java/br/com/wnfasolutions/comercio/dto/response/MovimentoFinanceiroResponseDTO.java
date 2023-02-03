@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.wnfasolutions.comercio.enuns.FormaPagamento;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.enuns.Status;
 import br.com.wnfasolutions.comercio.enuns.TipoMovimento;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -70,8 +71,11 @@ public class MovimentoFinanceiroResponseDTO {
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento;
 	
-	@ApiModelProperty(notes = "Situação atual do recurso", required = true, example = "ATIVO")
+	@ApiModelProperty(notes = "Situação atual do movimento financeiro", required = true, example = "ATIVO")
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
+	@ApiModelProperty(notes = "Status atual do mvimento financeiro", required = true, example = "PENDENTE")
+	@Enumerated(EnumType.STRING)
+	private Status status;
 }

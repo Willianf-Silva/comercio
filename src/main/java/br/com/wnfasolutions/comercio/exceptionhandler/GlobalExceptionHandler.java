@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.wnfasolutions.comercio.exception.MovimentoFinanceiroFinalizadoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.exception.RolesNotFoundException;
 import lombok.Getter;
@@ -28,6 +29,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
     private MessageSource messageSource;
+	
+	@ExceptionHandler({MovimentoFinanceiroFinalizadoException.class})
+    public ResponseEntity<Object> handleMovimentoFinanceiroFinalizadoException(MovimentoFinanceiroFinalizadoException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("movimento-financeiro-finalizado", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
 	
 	@ExceptionHandler({RolesNotFoundException.class})
     public ResponseEntity<Object> handleRolesNotFoundException(RolesNotFoundException ex, WebRequest request){

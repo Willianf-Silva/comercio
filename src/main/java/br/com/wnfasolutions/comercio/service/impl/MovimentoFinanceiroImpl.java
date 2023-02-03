@@ -15,6 +15,8 @@ import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDT
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.entity.MovimentoFinanceiroDO;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.enuns.Status;
+import br.com.wnfasolutions.comercio.exception.MovimentoFinanceiroFinalizadoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.MovimentoFinanceiroMapper;
 import br.com.wnfasolutions.comercio.repository.MovimentoFinanceiroRepository;
@@ -34,6 +36,7 @@ public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = convertToModel(movimentoFinanceiroRequestDTO);
 		movimentoFinanceiroDO.setDataInclusao(LocalDate.now());
 		movimentoFinanceiroDO.setSituacao(Situacao.ATIVO);
+		movimentoFinanceiroDO.setStatus(Status.PENDENTE);
 		MovimentoFinanceiroDO movimentoFinanceiroSalvo = movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
 		return convertToResponse(movimentoFinanceiroSalvo);
 	}
@@ -52,7 +55,9 @@ public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
 	public void pagarMovimentos(List<@Valid MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception {
 		for (MovimentosFinanceiroPagamentoDTO movimentoPagarDTO : movimentosFinanceiroPagamentoDTO) {
 			MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(movimentoPagarDTO.getIdMovimentoFinanceiro());
+			validarStatusParaPagamento(movimentoFinanceiroDO);
 			movimentoFinanceiroDO.setDataPagamento(LocalDate.now());
+			movimentoFinanceiroDO.setStatus(Status.FINALIZADO);
 			movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
 		}
 	}
@@ -71,6 +76,13 @@ public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
 	@Override
 	public void ativarMovimentoFinanceiro(Long id) throws Exception {
 		alterarSituacaoMovimentoFinanceiro(id, Situacao.ATIVO);
+	}
+
+	private Boolean validarStatusParaPagamento(MovimentoFinanceiroDO movimentoFinanceiroDO) throws Exception {
+		if (movimentoFinanceiroDO.isFinalizado()) {
+			throw new MovimentoFinanceiroFinalizadoException();
+		}
+		return true;
 	}
 
 	private void alterarSituacaoMovimentoFinanceiro(Long id, Situacao situacao) throws Exception {
