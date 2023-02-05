@@ -1,6 +1,5 @@
 package br.com.wnfasolutions.comercio.config.database;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -14,12 +13,12 @@ public class DataConfigMySQLRailway {
 
 	@Bean
 	public BasicDataSource dataSource() throws URISyntaxException {
-		URI dbUri = new URI(System.getenv("MYSQL_URL"));
+		String username = System.getenv("MYSQLUSER");
+		String password = System.getenv("MYSQLPASSWORD");
+		String dbUrl = "jdbc:mysql://" + System.getenv("MYSQLHOST") + ":" + System.getenv("MYSQLPORT") + "/"
+				+ System.getenv("MYSQLDATABASE");
 
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-
+		System.out.println("DB URL: " + dbUrl);
 		BasicDataSource basicDataSource = new BasicDataSource();
 		basicDataSource.setUrl(dbUrl);
 		basicDataSource.setUsername(username);
