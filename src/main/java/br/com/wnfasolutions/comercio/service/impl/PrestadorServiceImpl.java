@@ -34,6 +34,8 @@ public class PrestadorServiceImpl implements PrestadorService {
 	@Override
 	public PrestadorResponseDTO atualizarPrestador(Long id, PrestadorRequestDTO prestadorRequestDTO) throws Exception {
 		PrestadorDO prestadorDO = verificarSeExiste(id);
+		BeanUtils.copyProperties(prestadorRequestDTO.getTelefone(), prestadorDO.getTelefone(), "id");
+		BeanUtils.copyProperties(prestadorRequestDTO.getEndereco(), prestadorDO.getEndereco(), "id");
 		BeanUtils.copyProperties(prestadorRequestDTO, prestadorDO, "id");
 		PrestadorDO prestadorSalvo = prestadorRepository.save(prestadorDO);
 		return convertToResponse(prestadorSalvo);

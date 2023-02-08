@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -25,9 +23,12 @@ public class ClienteRequestDTO{
 	@ApiModelProperty(notes = "Nome do cliente", required = true, example = "Willian")
 	private String nome;
 	
-	@CPF
-	@ApiModelProperty(notes = "CPF do cliente", required = true, example = "772.324.346-42")
-    private String cpf;
+	@NotNull
+	@ApiModelProperty(notes = "Documento do cliente", required = true, example = "772.324.346-42")
+    private String documento;
+	
+	@ApiModelProperty(notes = "Inscrição estadual do cliente", required = false, example = "074.268.647.718")
+	private String inscricaoEstadual;
 	
 	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -35,8 +36,16 @@ public class ClienteRequestDTO{
 	private LocalDate dataNascimento;
 	
 	@NotNull
+	@ApiModelProperty(notes = "Telefone de contato", required = true)
+	private TelefoneRequestDTO telefone;
+
+	@NotNull
+	@ApiModelProperty(notes = "Endereço de contato", required = true)
+    private EnderecoRequestDTO endereco;
+	
+	@NotNull
 	@Email
-	@ApiModelProperty(notes = "E-mail de contato", required = true, example = "teste@test.com.br")
+	@ApiModelProperty(notes = "E-mail de contato", required = false, example = "teste@test.com.br")
 	private String email;
 	
 	@ApiModelProperty(notes = "Apelido do cliente", required = false, example = "Will")

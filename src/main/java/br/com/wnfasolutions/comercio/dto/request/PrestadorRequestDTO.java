@@ -30,4 +30,12 @@ public class PrestadorRequestDTO{
 	@NotNull
 	@ApiModelProperty(notes = "Comissão do prestador de serviço", required = true, example = "25")
 	private Integer comissao;
+	
+	@NotNull
+	@ApiModelProperty(notes = "Telefone de contato", required = true)
+	private TelefoneRequestDTO telefone;
+
+	@NotNull
+	@ApiModelProperty(notes = "Endereço de contato", required = true)
+    private EnderecoRequestDTO endereco;
 }

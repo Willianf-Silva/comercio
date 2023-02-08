@@ -34,6 +34,8 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public ClienteResponseDTO atualizarCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws Exception {
 		ClienteDO clienteDO = verificarSeExiste(id);
+		BeanUtils.copyProperties(clienteRequestDTO.getEndereco(), clienteDO.getEndereco(), "id");
+		BeanUtils.copyProperties(clienteRequestDTO.getTelefone(), clienteDO.getTelefone(), "id");
 		BeanUtils.copyProperties(clienteRequestDTO, clienteDO, "id");
 		ClienteDO clienteSalvo = clienteRepository.save(clienteDO);
 		return convertToResponse(clienteSalvo);

@@ -26,14 +26,23 @@ public class ClienteResponseDTO {
 	@ApiModelProperty(notes = "Nome do cliente", required = true, example = "Willian")
 	private String nome;
 
-	@ApiModelProperty(notes = "CPF do cliente", required = true, example = "772.324.346-42")
-	private String cpf;
+	@ApiModelProperty(notes = "Documento do cliente", required = true, example = "772.324.346-42")
+	private String documento;
+	
+	@ApiModelProperty(notes = "Inscrição estadual do cliente", required = false, example = "074.268.647.718")
+	private String inscricaoEstadual;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@ApiModelProperty(notes = "Data de nascimento", required = true, example = "15/05/1991")
 	private LocalDate dataNascimento;
 
-	@ApiModelProperty(notes = "E-mail de contato", required = true, example = "teste@test.com.br")
+	@ApiModelProperty(notes = "Telefone de contato", required = true)
+	private TelefoneResponseDTO telefone;
+
+	@ApiModelProperty(notes = "Endereço de contato", required = true)
+    private EnderecoResponseDTO endereco;
+	
+	@ApiModelProperty(notes = "E-mail de contato", required = false, example = "teste@test.com.br")
 	private String email;
 
 	@Enumerated(EnumType.STRING)

@@ -1,12 +1,15 @@
 package br.com.wnfasolutions.comercio.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.wnfasolutions.comercio.enuns.Situacao;
@@ -41,11 +44,11 @@ public class PrestadorDO {
 	@Column(nullable = false)
 	private Integer comissao;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-//    private List<Phone> phones;
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private TelefoneDO telefone;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-//    private List<Address> address;
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private EnderecoDO endereco;
 
 	public Boolean ativo() {
 		return getSituacao().equals(Situacao.ATIVO);
