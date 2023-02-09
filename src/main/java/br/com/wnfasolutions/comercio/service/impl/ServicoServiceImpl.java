@@ -1,5 +1,8 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -70,7 +73,20 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	private ServicoResponseDTO convertToResponse(ServicoDO servicoDO) {
-		return servicoMapper.toResponseDTO(servicoDO);
+		ServicoResponseDTO responseDTO = servicoMapper.toResponseDTO(servicoDO);
+		
+		MathContext mathContext = new MathContext(5, RoundingMode.HALF_EVEN);
+		BigDecimal valorCusto = servicoDO.getValorCusto();
+		BigDecimal valorVenda = servicoDO.getValorVenda();
+		BigDecimal lucroMonetario = valorVenda.subtract(valorCusto);
+
+		BigDecimal lucroPercentual = lucroMonetario
+				.divide(valorCusto, mathContext)
+				.multiply(BigDecimal.valueOf(100), mathContext);
+		
+		responseDTO.setLucroMonetario(lucroMonetario);
+		responseDTO.setLucroPercentual(lucroPercentual);
+		return responseDTO;
 	}
 
 	private ServicoDO convertToModel(ServicoRequestDTO servicoRequestDTO) {

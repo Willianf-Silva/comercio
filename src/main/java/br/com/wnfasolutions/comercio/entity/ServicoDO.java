@@ -1,5 +1,7 @@
 package br.com.wnfasolutions.comercio.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,18 +28,24 @@ public class ServicoDO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-    @Column(nullable = false, length=100, unique = true)
-    private String nome;
+
+	@Column(nullable = false, length = 100, unique = true)
+	private String nome;
+
+	@Column(nullable = true)
+	private String descricao;
 
 	@Column(nullable = false)
-    private double valor;
+	private BigDecimal valorCusto;
 
-    @Column(nullable = false) 
-    @Enumerated(EnumType.STRING)
-    private Situacao situacao;
-    
-    public Boolean ativo() {
-    	return getSituacao().equals(Situacao.ATIVO);
-    }
+	@Column(nullable = false)
+	private BigDecimal valorVenda;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
+
+	public Boolean ativo() {
+		return getSituacao().equals(Situacao.ATIVO);
+	}
 }
