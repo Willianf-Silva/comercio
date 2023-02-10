@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +23,7 @@ import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
 import br.com.wnfasolutions.comercio.dto.request.MovimentosFinanceiroPagamentoDTO;
 import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
+import br.com.wnfasolutions.comercio.repository.filtro.MovimentoFinanceiroFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.MovimentoFinanceiroResourceSwagger;
 import br.com.wnfasolutions.comercio.service.MovimentoFinanceiroService;
 
@@ -60,6 +63,12 @@ public class MovimentoFinanceiroResource extends ResourceBase<MovimentoFinanceir
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		MovimentoFinanceiroResponseDTO response = movimentoFinanceiroService.buscarPorId(id);
 		return responderSucessoComItem(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<MovimentoFinanceiroResponseDTO>> buscarMovimentosFinanceiro(MovimentoFinanceiroFiltro movimentoFinanceiroFiltro, Pageable pageable){
+		Page<MovimentoFinanceiroResponseDTO> response = movimentoFinanceiroService.buscarMovimentosFinanceiro(movimentoFinanceiroFiltro, pageable);
+		return responderListaDeItensPaginada(response );
 	}
 	
 	@PatchMapping("/inativar/{id}")

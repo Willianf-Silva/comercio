@@ -3,11 +3,15 @@ package br.com.wnfasolutions.comercio.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.MovimentoFinanceiroRequestDTO;
@@ -20,10 +24,11 @@ import br.com.wnfasolutions.comercio.exception.MovimentoFinanceiroFinalizadoExce
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.MovimentoFinanceiroMapper;
 import br.com.wnfasolutions.comercio.repository.MovimentoFinanceiroRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.MovimentoFinanceiroFiltro;
 import br.com.wnfasolutions.comercio.service.MovimentoFinanceiroService;
 
 @Service
-public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
+public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroService {
 
 	private final MovimentoFinanceiroMapper movimentoFinanceiroMapper = MovimentoFinanceiroMapper.INSTANCE;
 
@@ -66,6 +71,20 @@ public class MovimentoFinanceiroImpl implements MovimentoFinanceiroService {
 	public MovimentoFinanceiroResponseDTO buscarPorId(Long id) throws Exception {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(id);
 		return convertToResponse(movimentoFinanceiroDO);
+	}
+
+	@Override
+	public Page<MovimentoFinanceiroResponseDTO> buscarMovimentosFinanceiro(
+			MovimentoFinanceiroFiltro movimentoFinanceiroFiltro, Pageable pageable) {
+		
+		Page<MovimentoFinanceiroDO> movimentosFinanceiroDO = movimentoFinanceiroRepository.buscarMovimentoFinanceiro(movimentoFinanceiroFiltro, pageable);
+		
+		List<MovimentoFinanceiroResponseDTO> response = 
+				movimentosFinanceiroDO.stream()
+				.map(movimentoFinanceiroMapper::toResponseDTO)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, movimentosFinanceiroDO.getTotalElements());
 	}
 
 	@Override
