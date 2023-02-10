@@ -60,7 +60,7 @@ public class PrestadorServiceImpl implements PrestadorService {
 		
 		List<PrestadorResponseDTO> response = 
 				movimentosFinanceiroDO.stream()
-				.map(prestadorMapper::toResponseDTO)
+				.map(this::convertToResponse)
 				.collect(Collectors.toList());
 
 		return new PageImpl<>(response, pageable, movimentosFinanceiroDO.getTotalElements());

@@ -81,7 +81,7 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 		
 		List<MovimentoFinanceiroResponseDTO> response = 
 				movimentosFinanceiroDO.stream()
-				.map(movimentoFinanceiroMapper::toResponseDTO)
+				.map(this::convertToResponse)
 				.collect(Collectors.toList());
 
 		return new PageImpl<>(response, pageable, movimentosFinanceiroDO.getTotalElements());
