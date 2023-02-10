@@ -5,6 +5,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.wnfasolutions.comercio.dto.request.ClienteRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.ClienteResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
+import br.com.wnfasolutions.comercio.repository.filtro.ClienteFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.ClienteResourceSwagger;
 import br.com.wnfasolutions.comercio.service.ClienteService;
 
@@ -51,6 +54,12 @@ public class ClienteResource extends ResourceBase<ClienteResponseDTO> implements
 	public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		ClienteResponseDTO response = clienteService.buscarPorId(id);
 		return responderSucessoComItem(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<ClienteResponseDTO>> buscarClientes(ClienteFiltro clienteFiltro, Pageable pageable){
+		Page<ClienteResponseDTO> response = clienteService.buscarClientes(clienteFiltro, pageable);
+		return responderListaDeItensPaginada(response);
 	}
 	
 	@PatchMapping("/inativar/{id}")

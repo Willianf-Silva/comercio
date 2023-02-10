@@ -1,9 +1,14 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.ClienteRequestDTO;
@@ -13,6 +18,7 @@ import br.com.wnfasolutions.comercio.enuns.Situacao;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.ClienteMapper;
 import br.com.wnfasolutions.comercio.repository.ClienteRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.ClienteFiltro;
 import br.com.wnfasolutions.comercio.service.ClienteService;
 
 @Service
@@ -45,6 +51,19 @@ public class ClienteServiceImpl implements ClienteService {
 	public ClienteResponseDTO buscarPorId(Long id) throws Exception {
 		ClienteDO clienteDO = verificarSeExiste(id);
 		return convertToResponse(clienteDO);
+	}
+
+	@Override
+	public Page<ClienteResponseDTO> buscarClientes(ClienteFiltro clienteFiltro, Pageable pageable) {
+
+		Page<ClienteDO> clientesDO = clienteRepository.buscarClientes(clienteFiltro, pageable);
+		
+		List<ClienteResponseDTO> response = 
+				clientesDO.stream()
+				.map(this::convertToResponse)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, clientesDO.getTotalElements());
 	}
 
 	@Override

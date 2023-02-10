@@ -57,14 +57,14 @@ public class ServicoServiceImpl implements ServicoService {
 	@Override
 	public Page<ServicoResponseDTO> buscarServicos(ServicoFiltro servicoFiltro, Pageable pageable) {
 
-		Page<ServicoDO> movimentosFinanceiroDO = servicoRepository.buscarServicos(servicoFiltro, pageable);
+		Page<ServicoDO> servicosDO = servicoRepository.buscarServicos(servicoFiltro, pageable);
 		
 		List<ServicoResponseDTO> response = 
-				movimentosFinanceiroDO.stream()
+				servicosDO.stream()
 				.map(this::convertToResponse)
 				.collect(Collectors.toList());
 
-		return new PageImpl<>(response, pageable, movimentosFinanceiroDO.getTotalElements());
+		return new PageImpl<>(response, pageable, servicosDO.getTotalElements());
 	}
 
 	@Override
