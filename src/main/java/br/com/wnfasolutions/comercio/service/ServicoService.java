@@ -1,7 +1,11 @@
 package br.com.wnfasolutions.comercio.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import br.com.wnfasolutions.comercio.dto.request.ServicoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.ServicoResponseDTO;
+import br.com.wnfasolutions.comercio.repository.filtro.ServicoFiltro;
 
 public interface ServicoService {
 
@@ -14,5 +18,7 @@ public interface ServicoService {
 	void inativarServico(Long id) throws Exception;
 
 	void ativarServico(Long id) throws Exception;
+
+	Page<ServicoResponseDTO> buscarServicos(ServicoFiltro servicoFiltro, Pageable pageable);
 
 }

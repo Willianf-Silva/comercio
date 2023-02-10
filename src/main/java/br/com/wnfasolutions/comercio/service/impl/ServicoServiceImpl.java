@@ -3,10 +3,15 @@ package br.com.wnfasolutions.comercio.service.impl;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.ServicoRequestDTO;
@@ -16,6 +21,7 @@ import br.com.wnfasolutions.comercio.enuns.Situacao;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.ServicoMapper;
 import br.com.wnfasolutions.comercio.repository.ServicoRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.ServicoFiltro;
 import br.com.wnfasolutions.comercio.service.ServicoService;
 
 @Service
@@ -46,6 +52,19 @@ public class ServicoServiceImpl implements ServicoService {
 	public ServicoResponseDTO buscarPorId(Long id) throws Exception {
 		ServicoDO servicoDO = verificarSeExiste(id);
 		return convertToResponse(servicoDO);
+	}
+
+	@Override
+	public Page<ServicoResponseDTO> buscarServicos(ServicoFiltro servicoFiltro, Pageable pageable) {
+
+		Page<ServicoDO> movimentosFinanceiroDO = servicoRepository.buscarServicos(servicoFiltro, pageable);
+		
+		List<ServicoResponseDTO> response = 
+				movimentosFinanceiroDO.stream()
+				.map(this::convertToResponse)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, movimentosFinanceiroDO.getTotalElements());
 	}
 
 	@Override
