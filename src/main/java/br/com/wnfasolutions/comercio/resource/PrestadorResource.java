@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfasolutions.comercio.dto.request.PrestadorRequestDTO;
-import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.dto.response.PrestadorResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
-import br.com.wnfasolutions.comercio.repository.filtro.MovimentoFinanceiroFiltro;
 import br.com.wnfasolutions.comercio.repository.filtro.PrestadorFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.PrestadorResourceSwagger;
 import br.com.wnfasolutions.comercio.service.PrestadorService;
