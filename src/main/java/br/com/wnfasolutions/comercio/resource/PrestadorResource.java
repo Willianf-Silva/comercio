@@ -5,6 +5,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfasolutions.comercio.dto.request.PrestadorRequestDTO;
+import br.com.wnfasolutions.comercio.dto.response.MovimentoFinanceiroResponseDTO;
 import br.com.wnfasolutions.comercio.dto.response.PrestadorResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
+import br.com.wnfasolutions.comercio.repository.filtro.MovimentoFinanceiroFiltro;
+import br.com.wnfasolutions.comercio.repository.filtro.PrestadorFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.PrestadorResourceSwagger;
 import br.com.wnfasolutions.comercio.service.PrestadorService;
 
@@ -51,6 +56,12 @@ public class PrestadorResource extends ResourceBase<PrestadorResponseDTO> implem
 	public ResponseEntity<PrestadorResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		PrestadorResponseDTO response = prestadorService.buscarPorId(id);
 		return responderSucessoComItem(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<PrestadorResponseDTO>> buscarPrestadores(PrestadorFiltro prestadorFiltro, Pageable pageable){
+		Page<PrestadorResponseDTO> response = prestadorService.buscarPrestadores(prestadorFiltro, pageable);
+		return responderListaDeItensPaginada(response );
 	}
 	
 	@PatchMapping("/inativar/{id}")
