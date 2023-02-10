@@ -1,11 +1,12 @@
 package br.com.wnfasolutions.comercio.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import br.com.wnfasolutions.comercio.entity.UsuarioDO;
+import br.com.wnfasolutions.comercio.repository.custom.UsuarioRepositoryCustom;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<UsuarioDO, Long>{
+@EnableJpaRepositories
+public interface UsuarioRepository extends JpaRepository<UsuarioDO, Long>, UsuarioRepositoryCustom{
 
 }

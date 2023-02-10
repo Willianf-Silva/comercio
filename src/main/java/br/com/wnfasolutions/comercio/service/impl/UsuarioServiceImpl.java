@@ -1,11 +1,15 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.UsuarioRequestDTO;
@@ -18,6 +22,7 @@ import br.com.wnfasolutions.comercio.exception.RolesNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.UsuarioMapper;
 import br.com.wnfasolutions.comercio.repository.RoleRepository;
 import br.com.wnfasolutions.comercio.repository.UsuarioRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.UsuarioFiltro;
 import br.com.wnfasolutions.comercio.service.UsuarioService;
 
 @Service
@@ -54,6 +59,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public UsuarioResponseDTO buscarPorId(Long id) throws Exception {
 		UsuarioDO usuarioDO = verificarSeExiste(id);
 		return convertToResponse(usuarioDO);
+	}
+
+	@Override
+	public Page<UsuarioResponseDTO> buscarUsuarios(UsuarioFiltro usuarioFiltro, Pageable pageable) {
+
+		Page<UsuarioDO> usuariosDO = usuarioRepository.buscarUsuarios(usuarioFiltro, pageable);
+		
+		List<UsuarioResponseDTO> response = 
+				usuariosDO.stream()
+				.map(this::convertToResponse)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, usuariosDO.getTotalElements());
 	}
 
 	@Override

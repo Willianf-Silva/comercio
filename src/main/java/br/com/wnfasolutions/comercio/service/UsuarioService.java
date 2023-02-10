@@ -1,7 +1,11 @@
 package br.com.wnfasolutions.comercio.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import br.com.wnfasolutions.comercio.dto.request.UsuarioRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.UsuarioResponseDTO;
+import br.com.wnfasolutions.comercio.repository.filtro.UsuarioFiltro;
 
 public interface UsuarioService {
 
@@ -14,5 +18,7 @@ public interface UsuarioService {
 	void inativarUsuario(Long id) throws Exception;
 
 	void ativarUsuario(Long id) throws Exception;
+
+	Page<UsuarioResponseDTO> buscarUsuarios(UsuarioFiltro usuarioFiltro, Pageable pageable);
 
 }
