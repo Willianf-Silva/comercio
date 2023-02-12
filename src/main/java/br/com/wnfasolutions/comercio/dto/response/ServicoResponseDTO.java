@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.DecimalMin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,15 +32,19 @@ public class ServicoResponseDTO {
 	private String descricao;
 
 	@ApiModelProperty(notes = "Valor do custo para a realização do serviço", required = true, example = "3.00")
+	@DecimalMin("0.0")
 	private BigDecimal valorCusto;
 
 	@ApiModelProperty(notes = "Valor de venda determinado para o serviço", required = true, example = "20.00")
+	@DecimalMin("0.0")
 	private BigDecimal valorVenda;
 
-	@ApiModelProperty(notes = "Lucro em R$", required = true, example = "17.00")
+	@ApiModelProperty(notes = "Lucro em Reais$", required = true, example = "17.00")
+	@DecimalMin("0.0")
 	private BigDecimal lucroMonetario;
 
-	@ApiModelProperty(notes = "Lucro em %", required = true, example = "566,67")
+	@ApiModelProperty(notes = "Lucro em Percentual", required = true, example = "566,67")
+	@DecimalMin("0.0")
 	private BigDecimal lucroPercentual;
 
 	@ApiModelProperty(notes = "Situação atual do serviço", required = true, example = "ATIVO")

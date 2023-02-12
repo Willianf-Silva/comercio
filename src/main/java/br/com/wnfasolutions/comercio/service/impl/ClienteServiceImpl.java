@@ -15,6 +15,7 @@ import br.com.wnfasolutions.comercio.dto.request.ClienteRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.ClienteResponseDTO;
 import br.com.wnfasolutions.comercio.entity.ClienteDO;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.exception.RecursoNaoEstaAtivoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.ClienteMapper;
 import br.com.wnfasolutions.comercio.repository.ClienteRepository;
@@ -74,6 +75,19 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public void ativarCliente(Long id) throws Exception {
 		alterarSituacaoCliente(id, Situacao.ATIVO);
+	}
+
+	@Override
+	public ClienteDO buscarClienteAtivoPorId(Long id) throws Exception {
+		ClienteDO clienteDO = verificarSeExiste(id);
+		verificarSeAtivo(clienteDO);
+		return clienteDO;
+	}
+
+	private void verificarSeAtivo(ClienteDO clienteDO) throws Exception {
+		if (!clienteDO.ativo()) {
+			throw new RecursoNaoEstaAtivoException();
+		}
 	}
 
 	private void alterarSituacaoCliente(Long id, Situacao situacao) throws Exception {

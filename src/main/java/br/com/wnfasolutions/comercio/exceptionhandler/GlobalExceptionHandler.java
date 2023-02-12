@@ -20,6 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.wnfasolutions.comercio.exception.MovimentoFinanceiroFinalizadoException;
+import br.com.wnfasolutions.comercio.exception.RecursoNaoEstaAtivoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.exception.RolesNotFoundException;
 import lombok.Getter;
@@ -29,6 +30,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
     private MessageSource messageSource;
+
+	@ExceptionHandler({RecursoNaoEstaAtivoException.class})
+    public ResponseEntity<Object> handleRecursoNaoEstaAtivoException(RecursoNaoEstaAtivoException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("recurso-nao-esta-ativo", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
 	
 	@ExceptionHandler({MovimentoFinanceiroFinalizadoException.class})
     public ResponseEntity<Object> handleMovimentoFinanceiroFinalizadoException(MovimentoFinanceiroFinalizadoException ex, WebRequest request){

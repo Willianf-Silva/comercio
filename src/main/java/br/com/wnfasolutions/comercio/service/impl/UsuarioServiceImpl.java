@@ -17,6 +17,7 @@ import br.com.wnfasolutions.comercio.dto.response.UsuarioResponseDTO;
 import br.com.wnfasolutions.comercio.entity.RoleDO;
 import br.com.wnfasolutions.comercio.entity.UsuarioDO;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.exception.RecursoNaoEstaAtivoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.exception.RolesNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.UsuarioMapper;
@@ -82,6 +83,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void ativarUsuario(Long id) throws Exception {
 		alterarSituacaoUsuario(id, Situacao.ATIVO);		
+	}
+
+	@Override
+	public UsuarioDO buscarUsuarioAtivoPorId(Long id) throws Exception {
+		UsuarioDO usuarioDO = verificarSeExiste(id);
+		verificarSeAtivo(usuarioDO);
+		return usuarioDO;
+	}
+
+	private void verificarSeAtivo(UsuarioDO usuarioDO) throws Exception {
+		if (!usuarioDO.ativo()) {
+			throw new RecursoNaoEstaAtivoException();
+		}
 	}
 
 	private void alterarSituacaoUsuario(Long id, Situacao situacao) throws Exception {

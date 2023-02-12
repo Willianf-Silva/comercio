@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.wnfasolutions.comercio.dto.request.ServicoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.ServicoResponseDTO;
+import br.com.wnfasolutions.comercio.entity.ServicoDO;
 import br.com.wnfasolutions.comercio.repository.filtro.ServicoFiltro;
 
 public interface ServicoService {
@@ -20,5 +21,7 @@ public interface ServicoService {
 	void ativarServico(Long id) throws Exception;
 
 	Page<ServicoResponseDTO> buscarServicos(ServicoFiltro servicoFiltro, Pageable pageable);
+
+	ServicoDO buscarServicoAtivoById(Long id) throws Exception;
 
 }

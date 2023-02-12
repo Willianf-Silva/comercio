@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.wnfasolutions.comercio.dto.request.UsuarioRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.UsuarioResponseDTO;
+import br.com.wnfasolutions.comercio.entity.UsuarioDO;
 import br.com.wnfasolutions.comercio.repository.filtro.UsuarioFiltro;
 
 public interface UsuarioService {
@@ -20,5 +21,7 @@ public interface UsuarioService {
 	void ativarUsuario(Long id) throws Exception;
 
 	Page<UsuarioResponseDTO> buscarUsuarios(UsuarioFiltro usuarioFiltro, Pageable pageable);
+	
+	UsuarioDO buscarUsuarioAtivoPorId(Long id) throws Exception;
 
 }

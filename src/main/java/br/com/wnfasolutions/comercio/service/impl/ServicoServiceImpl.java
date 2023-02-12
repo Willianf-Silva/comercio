@@ -77,6 +77,12 @@ public class ServicoServiceImpl implements ServicoService {
 		alterarSituacaoServico(id, Situacao.ATIVO);
 	}
 
+	@Override
+	public ServicoDO buscarServicoAtivoById(Long id) throws Exception {
+		ServicoDO servicoDO = servicoRepository.findBySituacaoAndId(Situacao.ATIVO, id);
+		return servicoDO;
+	}
+
 	private void alterarSituacaoServico(Long id, Situacao situacao) throws Exception {
 		ServicoDO servicoDO = verificarSeExiste(id);
 		servicoDO.setSituacao(situacao);
