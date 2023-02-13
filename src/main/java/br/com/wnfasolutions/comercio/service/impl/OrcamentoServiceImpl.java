@@ -4,10 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.OrcamentoRequestDTO;
@@ -17,6 +21,7 @@ import br.com.wnfasolutions.comercio.entity.OrcamentoDO;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.OrcamentoMapper;
 import br.com.wnfasolutions.comercio.repository.OrcamentoRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.OrcamentoFiltro;
 import br.com.wnfasolutions.comercio.service.ClienteService;
 import br.com.wnfasolutions.comercio.service.ItemServicoService;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
@@ -52,6 +57,19 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		// TODO Cancelar/Reprovar orçamento existente
 		OrcamentoDO orcamentoDO = incluirNovoOrcamento(orcamentoRequestDTO);
 		return convertToResponse(orcamentoDO);
+	}
+
+	@Override
+	public Page<OrcamentoResponseDTO> buscarOrcamentos(OrcamentoFiltro orcamentoFiltro, Pageable pageable) {
+
+		Page<OrcamentoDO> orcamentosDO = orcamentoRepository.buscarOrcamentos(orcamentoFiltro, pageable);
+		
+		List<OrcamentoResponseDTO> response = 
+				orcamentosDO.stream()
+				.map(this::convertToResponse)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, orcamentosDO.getTotalElements());
 	}
 
 	private OrcamentoDO incluirNovoOrcamento(OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {

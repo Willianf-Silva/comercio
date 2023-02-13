@@ -5,7 +5,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.wnfasolutions.comercio.dto.request.OrcamentoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.OrcamentoResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
+import br.com.wnfasolutions.comercio.repository.filtro.OrcamentoFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.OrcamentoResourceSwagger;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
 
@@ -43,4 +47,11 @@ public class OrcamentoResource extends ResourceBase<OrcamentoResponseDTO> implem
 		OrcamentoResponseDTO response = orcamentoService.atualizarOrcamento(id, orcamentoRequestDTO);
 		return responderSucessoComItem(response);
 	}
+	
+	@GetMapping
+	public ResponseEntity<Page<OrcamentoResponseDTO>> buscarOrcamentos(OrcamentoFiltro orcamentoFiltro, Pageable pageable){
+		Page<OrcamentoResponseDTO> response = orcamentoService.buscarOrcamentos(orcamentoFiltro, pageable);
+		return responderListaDeItensPaginada(response);
+	}
+	
 }
