@@ -26,6 +26,7 @@ import br.com.wnfasolutions.comercio.service.ClienteService;
 import br.com.wnfasolutions.comercio.service.ItemServicoService;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
 import br.com.wnfasolutions.comercio.service.UsuarioService;
+import br.com.wnfasolutions.comercio.service.impl.situacao.orcamento.EmAnalise;
 
 @Service
 public class OrcamentoServiceImpl implements OrcamentoService {
@@ -82,6 +83,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		List<ItemServicoDO> itensDO = itemServicoService.incluirItens(orcamentoRequestDTO);
 		orcamentoNovo.setItensServico(itensDO);
 		orcamentoNovo.setValor(this.somarTotalServicos(itensDO));
+		orcamentoNovo.setSituacaoOrcamento(new EmAnalise());
 
 		OrcamentoDO orcamentoDO = orcamentoRepository.save(orcamentoNovo);
 		return orcamentoDO;

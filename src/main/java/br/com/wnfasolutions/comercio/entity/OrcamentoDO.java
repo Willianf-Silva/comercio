@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import br.com.wnfasolutions.comercio.service.impl.situacao.orcamento.SituacaoOrcamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,4 +55,18 @@ public class OrcamentoDO {
 	@JoinColumn(name = "usuario_id")
 	private UsuarioDO usuario;
 
+	@Column(nullable = false)
+	private SituacaoOrcamento situacaoOrcamento;
+	
+	public void aprovar() {
+		this.situacaoOrcamento.aprovar(this);
+	}
+
+	public void reprovar() {
+		this.situacaoOrcamento.reprovar(this);
+	}
+
+	public void finalizar() {
+		this.situacaoOrcamento.finalizar(this);
+	}
 }
