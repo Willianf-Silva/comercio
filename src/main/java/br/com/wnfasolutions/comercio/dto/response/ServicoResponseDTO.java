@@ -39,7 +39,7 @@ public class ServicoResponseDTO {
 	@DecimalMin("0.0")
 	private BigDecimal valorVenda;
 
-	@ApiModelProperty(notes = "Lucro em Reais$", required = true, example = "17.00")
+	@ApiModelProperty(notes = "Lucro em Reais", required = true, example = "17.00")
 	@DecimalMin("0.0")
 	private BigDecimal lucroMonetario;
 

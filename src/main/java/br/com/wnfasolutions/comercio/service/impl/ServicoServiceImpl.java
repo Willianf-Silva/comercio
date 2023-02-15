@@ -18,6 +18,7 @@ import br.com.wnfasolutions.comercio.dto.request.ServicoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.ServicoResponseDTO;
 import br.com.wnfasolutions.comercio.entity.ServicoDO;
 import br.com.wnfasolutions.comercio.enuns.Situacao;
+import br.com.wnfasolutions.comercio.exception.RecursoNaoEstaAtivoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.ServicoMapper;
 import br.com.wnfasolutions.comercio.repository.ServicoRepository;
@@ -36,6 +37,7 @@ public class ServicoServiceImpl implements ServicoService {
 	public ServicoResponseDTO cadastrarServico(ServicoRequestDTO servicoRequestDTO) throws Exception {
 		ServicoDO servicoDO = convertToModel(servicoRequestDTO);
 		servicoDO.setSituacao(Situacao.ATIVO);
+		servicoDO = this.calcularLucro(servicoDO);
 		ServicoDO servicoSalvo = servicoRepository.save(servicoDO);
 		return convertToResponse(servicoSalvo);
 	}
@@ -44,6 +46,7 @@ public class ServicoServiceImpl implements ServicoService {
 	public ServicoResponseDTO atualizarServico(Long id, ServicoRequestDTO servicoRequestDTO) throws Exception {
 		ServicoDO servicoDO = verificarSeExiste(id);
 		BeanUtils.copyProperties(servicoRequestDTO, servicoDO, "id");
+		servicoDO = this.calcularLucro(servicoDO);
 		ServicoDO servicoSalvo = servicoRepository.save(servicoDO);
 		return convertToResponse(servicoSalvo);
 	}
@@ -79,8 +82,16 @@ public class ServicoServiceImpl implements ServicoService {
 
 	@Override
 	public ServicoDO buscarServicoAtivoById(Long id) throws Exception {
-		ServicoDO servicoDO = servicoRepository.findBySituacaoAndId(Situacao.ATIVO, id);
+		ServicoDO servicoDO = verificarSeExiste(id);
+		verificarStatusAtivo(servicoDO);
 		return servicoDO;
+	}
+
+	private void verificarStatusAtivo(ServicoDO servicoDO) throws RecursoNaoEstaAtivoException {
+		if (!servicoDO.ativo()) {
+			throw new RecursoNaoEstaAtivoException();
+		}
+		
 	}
 
 	private void alterarSituacaoServico(Long id, Situacao situacao) throws Exception {
@@ -97,9 +108,7 @@ public class ServicoServiceImpl implements ServicoService {
 		return servicoOptional.get();
 	}
 
-	private ServicoResponseDTO convertToResponse(ServicoDO servicoDO) {
-		ServicoResponseDTO responseDTO = servicoMapper.toResponseDTO(servicoDO);
-		
+	private ServicoDO calcularLucro(ServicoDO servicoDO) {
 		MathContext mathContext = new MathContext(5, RoundingMode.HALF_EVEN);
 		BigDecimal valorCusto = servicoDO.getValorCusto();
 		BigDecimal valorVenda = servicoDO.getValorVenda();
@@ -109,9 +118,13 @@ public class ServicoServiceImpl implements ServicoService {
 				.divide(valorCusto, mathContext)
 				.multiply(BigDecimal.valueOf(100), mathContext);
 		
-		responseDTO.setLucroMonetario(lucroMonetario);
-		responseDTO.setLucroPercentual(lucroPercentual);
-		return responseDTO;
+		servicoDO.setLucroMonetario(lucroMonetario);
+		servicoDO.setLucroPercentual(lucroPercentual);
+		return servicoDO;
+	}
+
+	private ServicoResponseDTO convertToResponse(ServicoDO servicoDO) {
+		return servicoMapper.toResponseDTO(servicoDO);
 	}
 
 	private ServicoDO convertToModel(ServicoRequestDTO servicoRequestDTO) {

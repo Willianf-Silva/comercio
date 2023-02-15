@@ -42,6 +42,12 @@ public class ServicoDO {
 	private BigDecimal valorVenda;
 
 	@Column(nullable = false)
+	private BigDecimal lucroMonetario;
+
+	@Column(nullable = false)
+	private BigDecimal lucroPercentual;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
