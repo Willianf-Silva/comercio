@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import br.com.wnfasolutions.comercio.service.impl.situacao.orcamento.SituacaoOrcamento;
+import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,17 +58,26 @@ public class OrcamentoDO {
 	private UsuarioDO usuario;
 
 	@Column(nullable = false)
-	private SituacaoOrcamento situacaoOrcamento;
-	
+	@Enumerated(EnumType.STRING)
+	private StatusOrcamento statusOrcamento;
+
+	public void emAnalise() {
+		this.statusOrcamento = StatusOrcamento.EM_ANALISE;
+	}
+
 	public void aprovar() {
-		this.situacaoOrcamento.aprovar(this);
+		this.statusOrcamento = StatusOrcamento.APROVADO;
 	}
 
 	public void reprovar() {
-		this.situacaoOrcamento.reprovar(this);
+		this.statusOrcamento = StatusOrcamento.REPROVADO;
 	}
 
 	public void finalizar() {
-		this.situacaoOrcamento.finalizar(this);
+		this.statusOrcamento = StatusOrcamento.FINALIZADO;
+	}
+
+	public void cancelar() {
+		this.statusOrcamento = StatusOrcamento.CANCELADO;
 	}
 }

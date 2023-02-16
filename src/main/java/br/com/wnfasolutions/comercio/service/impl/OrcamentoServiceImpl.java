@@ -26,7 +26,6 @@ import br.com.wnfasolutions.comercio.service.ClienteService;
 import br.com.wnfasolutions.comercio.service.ItemServicoService;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
 import br.com.wnfasolutions.comercio.service.UsuarioService;
-import br.com.wnfasolutions.comercio.service.impl.situacao.orcamento.EmAnalise;
 
 @Service
 public class OrcamentoServiceImpl implements OrcamentoService {
@@ -55,7 +54,10 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	public OrcamentoResponseDTO atualizarOrcamento(Long id, OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
 		OrcamentoDO orcamentoDOExistente = verificarSeExiste(id);
-		// TODO Cancelar/Reprovar orçamento existente
+		orcamentoDOExistente.cancelar();
+		orcamentoDOExistente.setDataAlteracao(LocalDate.now());
+		orcamentoRepository.save(orcamentoDOExistente);
+		
 		OrcamentoDO orcamentoDO = incluirNovoOrcamento(orcamentoRequestDTO);
 		return convertToResponse(orcamentoDO);
 	}
@@ -78,12 +80,13 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
 		OrcamentoDO orcamentoNovo = new OrcamentoDO();
 		orcamentoNovo.setDataInclusao(LocalDate.now());
+		orcamentoNovo.setDataAlteracao(LocalDate.now());
 		orcamentoNovo.setCliente(clienteService.buscarClienteAtivoPorId(orcamentoRequestDTO.getIdCliente()));
 		orcamentoNovo.setUsuario(usuarioService.buscarUsuarioAtivoPorId(orcamentoRequestDTO.getIdUsuario()));
 		List<ItemServicoDO> itensDO = itemServicoService.incluirItens(orcamentoRequestDTO);
 		orcamentoNovo.setItensServico(itensDO);
 		orcamentoNovo.setValor(this.somarTotalServicos(itensDO));
-		orcamentoNovo.setSituacaoOrcamento(new EmAnalise());
+		orcamentoNovo.emAnalise();
 
 		OrcamentoDO orcamentoDO = orcamentoRepository.save(orcamentoNovo);
 		return orcamentoDO;

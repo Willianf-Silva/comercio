@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +40,7 @@ public class OrcamentoResponseDTO {
 	@DecimalMin("0.0")
 	private BigDecimal valor;
 
-	@ApiModelProperty(notes = "Item contendo a quantidade e o serviço vendido.,", required = true)
+	@ApiModelProperty(notes = "Item contendo a quantidade e o serviço vendido.", required = true)
 	@NotNull
 	private List<ItemServicoResponseDTO> itensServico;
 
@@ -49,4 +52,8 @@ public class OrcamentoResponseDTO {
 	@NotNull
 	private UsuarioResponseDTO usuario;
 
+	@ApiModelProperty(notes = "Situação atual do orçamento.", required = true)
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private StatusOrcamento statusOrcamento;
 }
