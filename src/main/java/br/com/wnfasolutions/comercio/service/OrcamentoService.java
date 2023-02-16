@@ -15,4 +15,6 @@ public interface OrcamentoService {
 
 	Page<OrcamentoResponseDTO> buscarOrcamentos(OrcamentoFiltro orcamentoFiltro, Pageable pageable);
 
+	OrcamentoResponseDTO reprovarOrcamento(Long id) throws Exception;
+
 }

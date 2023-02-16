@@ -75,6 +75,14 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		return new PageImpl<>(response, pageable, orcamentosDO.getTotalElements());
 	}
 
+	@Override
+	public OrcamentoResponseDTO reprovarOrcamento(Long id) throws Exception {
+		OrcamentoDO orcamentoDO = verificarSeExiste(id);
+		orcamentoDO.reprovar();
+		orcamentoRepository.save(orcamentoDO);
+		return null;
+	}
+
 	private OrcamentoDO incluirNovoOrcamento(OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
 		verificarListaVazia(orcamentoRequestDTO.getItensServico());
 

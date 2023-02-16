@@ -42,4 +42,8 @@ public interface OrcamentoResourceSwagger {
 	public ResponseEntity<Page<OrcamentoResponseDTO>> buscarOrcamentos(
 			@ApiParam("Opções de filtro para consulta") OrcamentoFiltro orcamentoFiltro, 
 			@ApiIgnore Pageable pageable);
+	
+	@ApiOperation("Reprova um orçamento através do identificador.")
+	public ResponseEntity<?> reprovarOrcamento(
+			@ApiParam(value = "ID do orçamento", example = "01") Long id) throws Exception;
 }
