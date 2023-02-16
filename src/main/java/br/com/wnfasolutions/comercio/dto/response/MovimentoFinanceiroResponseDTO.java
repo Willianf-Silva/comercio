@@ -2,6 +2,7 @@ package br.com.wnfasolutions.comercio.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,13 +33,13 @@ public class MovimentoFinanceiroResponseDTO {
 	private Long id;
 	
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data da inclusão do movimento financeiro", required = true, example = "21/07/2023")
-	private LocalDate dataInclusao;
+	private LocalDateTime dataInclusao;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data útima atualização do movimento financeiro", required = false, example = "22/07/2023")
-	private LocalDate dataAtualizacao;
+	private LocalDateTime dataAtualizacao;
 	
 	@NotNull
 	@ApiModelProperty(notes = "Tipo do movimento financeiro", required = true, example = "DESPESA")

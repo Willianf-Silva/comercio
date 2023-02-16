@@ -1,6 +1,7 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +40,8 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 	public MovimentoFinanceiroResponseDTO cadastrarMovimentoFinanceiro(
 			MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = convertToModel(movimentoFinanceiroRequestDTO);
-		movimentoFinanceiroDO.setDataInclusao(LocalDate.now());
+		movimentoFinanceiroDO.setDataInclusao(LocalDateTime.now());
+		movimentoFinanceiroDO.setDataAtualizacao(LocalDateTime.now());
 		movimentoFinanceiroDO.setSituacao(Situacao.ATIVO);
 		movimentoFinanceiroDO.setStatus(Status.PENDENTE);
 		MovimentoFinanceiroDO movimentoFinanceiroSalvo = movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
@@ -50,7 +52,7 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 	public MovimentoFinanceiroResponseDTO atualizarMovimentoFinanceiro(Long id,
 			MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(id);
-		movimentoFinanceiroDO.setDataAtualizacao(LocalDate.now());
+		movimentoFinanceiroDO.setDataAtualizacao(LocalDateTime.now());
 		BeanUtils.copyProperties(movimentoFinanceiroRequestDTO, movimentoFinanceiroDO, "id");
 		MovimentoFinanceiroDO movimentoFinanceiroSalvo = movimentoFinanceiroRepository.save(movimentoFinanceiroDO);
 		return convertToResponse(movimentoFinanceiroSalvo);

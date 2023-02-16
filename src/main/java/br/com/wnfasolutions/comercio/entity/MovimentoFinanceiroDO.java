@@ -2,6 +2,7 @@ package br.com.wnfasolutions.comercio.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,10 +34,10 @@ public class MovimentoFinanceiroDO {
 	private Long id;
 
 	@Column(nullable = false)
-	private LocalDate dataInclusao;
+	private LocalDateTime dataInclusao;
 
 	@Column(nullable = true)
-	private LocalDate dataAtualizacao;
+	private LocalDateTime dataAtualizacao;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
