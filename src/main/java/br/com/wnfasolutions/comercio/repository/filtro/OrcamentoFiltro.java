@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,4 +34,6 @@ public class OrcamentoFiltro {
 	@ApiModelProperty(notes = "Data de realização do orçamento.", required = false, example = "21/07/2050")
 	private LocalDate dataInclusaoFim;
 
+	@ApiModelProperty(notes = "Situação atual do orçamento.", required = false, example = "EM_ANALISE")
+	private StatusOrcamento statusOrcamento;
 }

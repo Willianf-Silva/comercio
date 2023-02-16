@@ -77,6 +77,10 @@ public class OrcamentoRepositoryCustomImpl implements OrcamentoRepositoryCustom 
 						));				
 			}
 		}
+		if (!ObjectUtils.isEmpty(orcamentoFiltro.getStatusOrcamento())) {
+			predicates.add(builder.equal(builder.upper(root.get("statusOrcamento")),
+					orcamentoFiltro.getStatusOrcamento()));
+		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
