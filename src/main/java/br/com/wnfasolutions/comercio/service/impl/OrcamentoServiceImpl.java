@@ -1,7 +1,7 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,7 +55,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	public OrcamentoResponseDTO atualizarOrcamento(Long id, OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
 		OrcamentoDO orcamentoDOExistente = verificarSeExiste(id);
 		orcamentoDOExistente.cancelar();
-		orcamentoDOExistente.setDataAlteracao(LocalDate.now());
+		orcamentoDOExistente.setDataAlteracao(LocalDateTime.now());
 		orcamentoRepository.save(orcamentoDOExistente);
 		
 		OrcamentoDO orcamentoDO = incluirNovoOrcamento(orcamentoRequestDTO);
@@ -79,8 +79,8 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		verificarListaVazia(orcamentoRequestDTO.getItensServico());
 
 		OrcamentoDO orcamentoNovo = new OrcamentoDO();
-		orcamentoNovo.setDataInclusao(LocalDate.now());
-		orcamentoNovo.setDataAlteracao(LocalDate.now());
+		orcamentoNovo.setDataInclusao(LocalDateTime.now());
+		orcamentoNovo.setDataAlteracao(LocalDateTime.now());
 		orcamentoNovo.setCliente(clienteService.buscarClienteAtivoPorId(orcamentoRequestDTO.getIdCliente()));
 		orcamentoNovo.setUsuario(usuarioService.buscarUsuarioAtivoPorId(orcamentoRequestDTO.getIdUsuario()));
 		List<ItemServicoDO> itensDO = itemServicoService.incluirItens(orcamentoRequestDTO);

@@ -1,7 +1,7 @@
 package br.com.wnfasolutions.comercio.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,10 +37,10 @@ public class OrcamentoDO {
 	private Long id;
 
 	@Column(nullable = false)
-	private LocalDate dataInclusao;
+	private LocalDateTime dataInclusao;
 
 	@Column(nullable = true)
-	private LocalDate dataAlteracao;
+	private LocalDateTime dataAlteracao;
 
 	@Column(nullable = false)
 	private BigDecimal valor;

@@ -1,7 +1,7 @@
 package br.com.wnfasolutions.comercio.dto.response;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EnumType;
@@ -28,13 +28,13 @@ public class OrcamentoResponseDTO {
 	private Long id;
 
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data de realização do orçamento.", required = true, example = "21/07/2050")
-	private LocalDate dataInclusao;
+	private LocalDateTime dataInclusao;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data da última alterção do orçamento.", required = false, example = "21/07/2050")
-	private LocalDate dataAlteracao;
+	private LocalDateTime dataAlteracao;
 
 	@ApiModelProperty(notes = "Valor do orçamento.", required = true, example = "100.00")
 	@DecimalMin("0.0")

@@ -1,5 +1,7 @@
 package br.com.wnfasolutions.comercio.repository.custom.impl;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +74,8 @@ public class OrcamentoRepositoryCustomImpl implements OrcamentoRepositoryCustom 
 		if (!ObjectUtils.isEmpty(orcamentoFiltro.getDataInclusaoInicio())) {
 			if (!ObjectUtils.isEmpty(orcamentoFiltro.getDataInclusaoFim())) {
 				predicates.add(builder.between(root.get("dataInclusao"),
-						orcamentoFiltro.getDataInclusaoInicio(),
-						orcamentoFiltro.getDataInclusaoFim()
+						LocalDateTime.of(orcamentoFiltro.getDataInclusaoInicio(), LocalTime.MIN),
+						LocalDateTime.of(orcamentoFiltro.getDataInclusaoFim(), LocalTime.MAX)
 						));				
 			}
 		}
