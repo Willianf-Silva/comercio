@@ -17,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
+import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,23 +63,10 @@ public class OrcamentoDO {
 	@Enumerated(EnumType.STRING)
 	private StatusOrcamento statusOrcamento;
 
-	public void emAnalise() {
-		this.statusOrcamento = StatusOrcamento.EM_ANALISE;
-	}
-
-	public void aprovar() {
-		this.statusOrcamento = StatusOrcamento.APROVADO;
-	}
-
-	public void reprovar() {
-		this.statusOrcamento = StatusOrcamento.REPROVADO;
-	}
-
-	public void finalizar() {
-		this.statusOrcamento = StatusOrcamento.FINALIZADO;
-	}
-
-	public void cancelar() {
-		this.statusOrcamento = StatusOrcamento.CANCELADO;
+	@Transient
+	private SituacaoOrcamento situacaoOrcamento;
+	
+	public void processarSituacao() {
+		situacaoOrcamento.processar(this);
 	}
 }
