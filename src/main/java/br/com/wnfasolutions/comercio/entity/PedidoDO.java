@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.wnfasolutions.comercio.service.impl.pedido.SituacaoPedido;
+import br.com.wnfasolutions.comercio.service.impl.pedido.SituacaoPedidoAguardandoEnvioProducao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,11 +40,11 @@ public class PedidoDO {
 
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = SituacaoPedidoDO.class)
-	SituacaoPedido situacaoPedido;
+	private SituacaoPedido situacaoPedido = new SituacaoPedidoAguardandoEnvioProducao();
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "orcamento_id")
-	OrcamentoDO orcamento;
+	private OrcamentoDO orcamento;
 
 	
 	public void aguardandoEnvioProducao() {

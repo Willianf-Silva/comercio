@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,10 +26,6 @@ import br.com.wnfasolutions.comercio.service.ClienteService;
 import br.com.wnfasolutions.comercio.service.ItemServicoService;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
 import br.com.wnfasolutions.comercio.service.UsuarioService;
-import br.com.wnfasolutions.comercio.service.impl.orcamento.Cancelado;
-import br.com.wnfasolutions.comercio.service.impl.orcamento.EmAnalise;
-import br.com.wnfasolutions.comercio.service.impl.orcamento.Reprovado;
-import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamento;
 
 @Service
 public class OrcamentoServiceImpl implements OrcamentoService {
@@ -40,9 +35,6 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Autowired
 	private OrcamentoRepository orcamentoRepository;
 
-	@Autowired
-	private ApplicationContext context;
-	
 	@Autowired
 	private ItemServicoService itemServicoService;
 
@@ -61,11 +53,11 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
 	@Override
 	public OrcamentoResponseDTO atualizarOrcamento(Long id, OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
+		// TODO Implementar uma solução melhor para a atualização de orçamento
+		
 		OrcamentoDO orcamentoDOExistente = verificarSeExiste(id);
-		orcamentoDOExistente.setDataAlteracao(LocalDateTime.now());
-		SituacaoOrcamento situacaoOrcamento = context.getBean(Cancelado.class);
-		orcamentoDOExistente.setSituacaoOrcamento(situacaoOrcamento);
-		orcamentoDOExistente.processarSituacao();
+		orcamentoDOExistente.setDataAlteracao(this.obterDataHoraAtual());
+		orcamentoDOExistente.cancelar();
 		orcamentoRepository.save(orcamentoDOExistente);
 		
 		OrcamentoDO orcamentoDO = incluirNovoOrcamento(orcamentoRequestDTO);
@@ -88,9 +80,8 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	@Override
 	public OrcamentoResponseDTO reprovarOrcamento(Long id) throws Exception {
 		OrcamentoDO orcamentoDO = verificarSeExiste(id);
-		SituacaoOrcamento situacaoOrcamento = context.getBean(Reprovado.class);
-		orcamentoDO.setSituacaoOrcamento(situacaoOrcamento);
-		orcamentoDO.processarSituacao();
+		orcamentoDO.setDataAlteracao(obterDataHoraAtual());
+		orcamentoDO.reprovar();
 		OrcamentoDO orcamentoDOSaved = orcamentoRepository.save(orcamentoDO);
 		return convertToResponse(orcamentoDOSaved);
 	}
@@ -99,19 +90,20 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		verificarListaVazia(orcamentoRequestDTO.getItensServico());
 
 		OrcamentoDO orcamentoNovo = new OrcamentoDO();
-		orcamentoNovo.setDataInclusao(LocalDateTime.now());
-		orcamentoNovo.setDataAlteracao(LocalDateTime.now());
+		orcamentoNovo.setDataInclusao(obterDataHoraAtual());
+		orcamentoNovo.setDataAlteracao(obterDataHoraAtual());
 		orcamentoNovo.setCliente(clienteService.buscarClienteAtivoPorId(orcamentoRequestDTO.getIdCliente()));
 		orcamentoNovo.setUsuario(usuarioService.buscarUsuarioAtivoPorId(orcamentoRequestDTO.getIdUsuario()));
 		List<ItemServicoDO> itensDO = itemServicoService.incluirItens(orcamentoRequestDTO);
 		orcamentoNovo.setItensServico(itensDO);
 		orcamentoNovo.setValor(this.somarTotalServicos(itensDO));
-		SituacaoOrcamento situacaoOrcamento = context.getBean(EmAnalise.class);
-		orcamentoNovo.setSituacaoOrcamento(situacaoOrcamento);
-		orcamentoNovo.processarSituacao();
 
 		OrcamentoDO orcamentoDO = orcamentoRepository.save(orcamentoNovo);
 		return orcamentoDO;
+	}
+
+	private LocalDateTime obterDataHoraAtual() {
+		return LocalDateTime.now();
 	}
 
 	private BigDecimal somarTotalServicos(List<ItemServicoDO> itens) {

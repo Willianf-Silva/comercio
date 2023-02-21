@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,10 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
 import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamento;
+import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamentoEmAnalise;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -59,14 +56,22 @@ public class OrcamentoDO {
 	@JoinColumn(name = "usuario_id")
 	private UsuarioDO usuario;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private StatusOrcamento statusOrcamento;
-
-	@Transient
-	private SituacaoOrcamento situacaoOrcamento;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = SituacaoOrcamentoDO.class)
+	private SituacaoOrcamento situacaoOrcamento = new SituacaoOrcamentoEmAnalise();
 	
-	public void processarSituacao() {
-		situacaoOrcamento.processar(this);
+	public void emAnalise() {
+		situacaoOrcamento.emAnalise(this);
+	}
+	public void aprovar( ) {
+		situacaoOrcamento.aprovar(this);
+	}
+	public void cancelar() {
+		situacaoOrcamento.cancelar(this);
+	}
+	public void reprovar() {
+		situacaoOrcamento.reprovar(this);
+	}
+	public void finalizar() {
+		situacaoOrcamento.finalizar(this);
 	}
 }
