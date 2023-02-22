@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamento;
 import br.com.wnfasolutions.comercio.service.impl.orcamento.SituacaoOrcamentoEmAnalise;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,7 +56,7 @@ public class OrcamentoDO {
 	private UsuarioDO usuario;
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = SituacaoOrcamentoDO.class)
-	private SituacaoOrcamento situacaoOrcamento = new SituacaoOrcamentoEmAnalise();
+	private SituacaoOrcamentoDO situacaoOrcamento = new SituacaoOrcamentoEmAnalise();
 	
 	public void emAnalise() {
 		situacaoOrcamento.emAnalise(this);

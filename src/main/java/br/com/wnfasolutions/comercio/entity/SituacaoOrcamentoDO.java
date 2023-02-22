@@ -1,6 +1,7 @@
 package br.com.wnfasolutions.comercio.entity;
 
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ import lombok.Data;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "situacao_orcamento_type")
+@DiscriminatorColumn(name = "situacao_orcamento_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "tb_situacao_orcamento")
 public abstract class SituacaoOrcamentoDO implements SituacaoOrcamento {
 	

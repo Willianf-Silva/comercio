@@ -4,14 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.wnfasolutions.comercio.enuns.StatusOrcamento;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +51,5 @@ public class OrcamentoResponseDTO {
 
 	@ApiModelProperty(notes = "Situação atual do orçamento.", required = true)
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private StatusOrcamento statusOrcamento;
+	private String situacaoOrcamento;
 }
