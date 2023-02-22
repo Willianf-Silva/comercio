@@ -5,9 +5,9 @@ import java.util.Set;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.wnfasolutions.comercio.enuns.Situacao;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsuarioResponseDTO {
 
 	@ApiModelProperty(notes = "Identificador único", required = true, example = "01")
@@ -46,7 +47,6 @@ public class UsuarioResponseDTO {
 	private String username;
 
 	@ApiModelProperty(notes = "Roles para autorização de acesso", required = true)
-	@NotNull
 	private Set<RoleResponseDTO> roles;
 
 }

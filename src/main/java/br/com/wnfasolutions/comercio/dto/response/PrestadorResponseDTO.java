@@ -2,7 +2,8 @@ package br.com.wnfasolutions.comercio.dto.response;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.wnfasolutions.comercio.enuns.Situacao;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PrestadorResponseDTO {
 
 	@ApiModelProperty(notes = "Identificador único", required = true, example = "01")
@@ -33,7 +35,6 @@ public class PrestadorResponseDTO {
 	@ApiModelProperty(notes = "Situação atual do recurso", required = true, example = "ATIVO")
 	private Situacao situacao;
 
-	@NotNull
 	@ApiModelProperty(notes = "Comissão do prestador de serviço", required = true, example = "25")
 	private Integer comissao;
 	

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,7 +31,6 @@ public class MovimentoFinanceiroResponseDTO {
 	@ApiModelProperty(notes = "Identificador único do movimento financeiro", required = true, example = "01")
 	private Long id;
 	
-	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data da inclusão do movimento financeiro", required = true, example = "21/07/2023")
 	private LocalDateTime dataInclusao;
@@ -41,12 +39,10 @@ public class MovimentoFinanceiroResponseDTO {
 	@ApiModelProperty(notes = "Data útima atualização do movimento financeiro", required = false, example = "22/07/2023")
 	private LocalDateTime dataAtualizacao;
 	
-	@NotNull
 	@ApiModelProperty(notes = "Tipo do movimento financeiro", required = true, example = "DESPESA")
 	@Enumerated(EnumType.STRING)
 	private TipoMovimento tipoMovimento;
 
-	@NotNull
 	@ApiModelProperty(notes = "Descrição do movimento financeiro.", required = true, example = "Pagamento fornecedor ABC")
 	private String descricao;
 
@@ -54,7 +50,6 @@ public class MovimentoFinanceiroResponseDTO {
 	@DecimalMin("0.0")
 	private BigDecimal valor;
 
-	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@ApiModelProperty(notes = "Data de vencimento do movimento financeiro.", required = true, example = "21/07/2050")
 	private LocalDate dataVencimento;
@@ -63,11 +58,9 @@ public class MovimentoFinanceiroResponseDTO {
 	@ApiModelProperty(notes = "Data que foi realizado o pagamento do movimento financeiro.", required = true, example = "20/07/2050")
 	private LocalDate dataPagamento;
 	
-	@NotNull
 	@ApiModelProperty(notes = "Documento ou Parcela do movimento financeiro", required = true, example = "Comissão O.S 1")
 	private String documentoParcela;
 
-	@NotNull
 	@ApiModelProperty(notes = "Forma de pagamento do movimento financeiro", required = true, example = "DINHEIRO")
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento;

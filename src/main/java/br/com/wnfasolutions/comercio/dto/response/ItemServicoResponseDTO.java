@@ -7,6 +7,8 @@ import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.NumberFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,13 +19,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemServicoResponseDTO {
 
 	@ApiModelProperty(notes = "Identificador único para cada item.", required = true, example = "01")
 	private Long id;
-
-	@ApiModelProperty(notes = "Dados do serviço vendido.", required = true)
-	private ServicoResponseDTO servico;
 
 	@ApiModelProperty(notes = "Quantidade do serviço vendido.", required = true, example = "02")
 	@Min(value = 1)
@@ -40,4 +40,7 @@ public class ItemServicoResponseDTO {
 	@ApiModelProperty(notes = "Valor total para o serviço vendido.", required = true)
 	@NumberFormat(pattern = "#,##0.00")
 	private BigDecimal soma;
+	
+	@ApiModelProperty(notes = "Dados do serviço vendido.", required = true)
+	private ServicoResponseDTO servico;
 }

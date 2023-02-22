@@ -1,6 +1,6 @@
 package br.com.wnfasolutions.comercio.dto.response;
 
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,16 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TelefoneResponseDTO {
-	@NotNull
 	@ApiModelProperty(notes = "Identificador único para o telefone de contato", required = true, example = "01")
 	private Long id;
 
-	@NotNull
 	@ApiModelProperty(notes = "Código DDI País do telefone de contato", required = true, example = "51")
 	private String ddi;
 
-	@NotNull
 	@ApiModelProperty(notes = "Código DDD do telefone de contato", required = true, example = "19")
 	private String ddd;
 

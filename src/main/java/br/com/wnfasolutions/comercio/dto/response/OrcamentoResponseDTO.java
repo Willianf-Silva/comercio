@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrcamentoResponseDTO {
 
 	@ApiModelProperty(notes = "Identificador único do orçamento.", required = true, example = "01")
 	private Long id;
 
-	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@ApiModelProperty(notes = "Data de realização do orçamento.", required = true, example = "21/07/2050")
 	private LocalDateTime dataInclusao;
@@ -36,20 +36,16 @@ public class OrcamentoResponseDTO {
 	@ApiModelProperty(notes = "Valor do orçamento.", required = true, example = "100.00")
 	@DecimalMin("0.0")
 	private BigDecimal valor;
-
-	@ApiModelProperty(notes = "Item contendo a quantidade e o serviço vendido.", required = true)
-	@NotNull
-	private List<ItemServicoResponseDTO> itensServico;
+	
+	@ApiModelProperty(notes = "Situação atual do orçamento.", required = true)
+	private String situacaoOrcamento;
 
 	@ApiModelProperty(notes = "Dados do cliente.", required = true)
-	@NotNull
 	private ClienteResponseDTO cliente;
 
 	@ApiModelProperty(notes = "Dados do usuário.", required = true)
-	@NotNull
 	private UsuarioResponseDTO usuario;
-
-	@ApiModelProperty(notes = "Situação atual do orçamento.", required = true)
-	@NotNull
-	private String situacaoOrcamento;
+	
+	@ApiModelProperty(notes = "Item contendo a quantidade e o serviço vendido.", required = true)
+	private List<ItemServicoResponseDTO> itensServico;
 }
