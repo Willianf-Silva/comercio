@@ -101,6 +101,13 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		return convertToResponse(orcamentoRepository.save(orcamentoDO));
 	}
 
+	@Override
+	public OrcamentoResponseDTO finalizarOrcamentoById(Long id) throws Exception {
+		OrcamentoDO orcamentoDO = verificarSeExiste(id);
+		orcamentoDO.finalizar();
+		return convertToResponse(orcamentoRepository.save(orcamentoDO));
+	}
+
 	private void verificarSituacaoEmAnalise(OrcamentoDO orcamentoDO) throws Exception {
 		if (!orcamentoDO.isEmAnalise()) {
 			throw new OrcamentoNaoAtendeRequisitosException();

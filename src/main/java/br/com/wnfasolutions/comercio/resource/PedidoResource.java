@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +35,23 @@ public class PedidoResource extends ResourceBase<PedidoResponseDTO> implements P
 		PedidoResponseDTO response = pedidoService.cadastrarPedido(pedidoRequestDTO);
 		publicarEvento.publishEvent(new ResourceCreatedEvent(this, resp, response.getId()));
 		return responderItemCriado(response);
+	}
+	
+	@PatchMapping("/producao/{id}")
+	public ResponseEntity<?> enviarPedidoProducao(@PathVariable Long id) throws Exception {
+		pedidoService.enviarPedidoProducao(id);
+		return responderSucessoSemItem();
+	}
+	
+	@PatchMapping("/pronto/{id}")
+	public ResponseEntity<?> pedidoAguardandoRetirada(@PathVariable Long id) throws Exception {
+		pedidoService.pedidoAguardandoRetirada(id);
+		return responderSucessoSemItem();
+	}
+	
+	@PatchMapping("/entregue/{id}")
+	public ResponseEntity<?> pedidoEntregue(@PathVariable Long id) throws Exception {
+		pedidoService.pedidoEntregue(id);
+		return responderSucessoSemItem();
 	}
 }

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wnfasolutions.comercio.dto.request.OrcamentoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.OrcamentoResponseDTO;
-import br.com.wnfasolutions.comercio.dto.response.PrestadorResponseDTO;
 import br.com.wnfasolutions.comercio.event.ResourceCreatedEvent;
 import br.com.wnfasolutions.comercio.repository.filtro.OrcamentoFiltro;
 import br.com.wnfasolutions.comercio.resource.swagger.OrcamentoResourceSwagger;

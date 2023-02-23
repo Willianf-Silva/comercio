@@ -7,4 +7,10 @@ public interface PedidoService {
 
 	PedidoResponseDTO cadastrarPedido(PedidoRequestDTO pedidoRequestDTO) throws Exception;
 
+	PedidoResponseDTO enviarPedidoProducao(Long id) throws Exception;
+
+	PedidoResponseDTO pedidoAguardandoRetirada(Long id) throws Exception;
+
+	PedidoResponseDTO pedidoEntregue(Long id) throws Exception;
+
 }

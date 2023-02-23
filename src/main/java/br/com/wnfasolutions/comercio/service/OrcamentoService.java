@@ -22,4 +22,6 @@ public interface OrcamentoService {
 
 	OrcamentoResponseDTO aprovarOrcamento(Long id) throws Exception;
 
+	OrcamentoResponseDTO finalizarOrcamentoById(Long id) throws Exception;
+
 }
