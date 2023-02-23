@@ -18,6 +18,7 @@ import br.com.wnfasolutions.comercio.dto.request.OrcamentoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.OrcamentoResponseDTO;
 import br.com.wnfasolutions.comercio.entity.ItemServicoDO;
 import br.com.wnfasolutions.comercio.entity.OrcamentoDO;
+import br.com.wnfasolutions.comercio.exception.OrcamentoNaoAtendeRequisitosException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.OrcamentoMapper;
 import br.com.wnfasolutions.comercio.repository.OrcamentoRepository;
@@ -84,6 +85,26 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 		orcamentoDO.reprovar();
 		OrcamentoDO orcamentoDOSaved = orcamentoRepository.save(orcamentoDO);
 		return convertToResponse(orcamentoDOSaved);
+	}
+
+	@Override
+	public OrcamentoDO buscarOrcamentoEmAnaliseById(Long id) throws Exception {
+		OrcamentoDO orcamentoDO = verificarSeExiste(id);
+		verificarSituacaoEmAnalise(orcamentoDO);
+		return orcamentoDO;
+	}
+
+	@Override
+	public OrcamentoResponseDTO aprovarOrcamento(Long id) throws Exception {
+		OrcamentoDO orcamentoDO = verificarSeExiste(id);
+		orcamentoDO.aprovar();
+		return convertToResponse(orcamentoRepository.save(orcamentoDO));
+	}
+
+	private void verificarSituacaoEmAnalise(OrcamentoDO orcamentoDO) throws Exception {
+		if (!orcamentoDO.isEmAnalise()) {
+			throw new OrcamentoNaoAtendeRequisitosException();
+		}
 	}
 
 	private OrcamentoDO incluirNovoOrcamento(OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {

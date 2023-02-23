@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.com.wnfasolutions.comercio.exception.DomainException;
 import br.com.wnfasolutions.comercio.exception.MovimentoFinanceiroFinalizadoException;
+import br.com.wnfasolutions.comercio.exception.OrcamentoNaoAtendeRequisitosException;
 import br.com.wnfasolutions.comercio.exception.RecursoNaoEstaAtivoException;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.exception.RolesNotFoundException;
@@ -32,6 +33,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@Autowired
     private MessageSource messageSource;
 
+	@ExceptionHandler({OrcamentoNaoAtendeRequisitosException.class})
+    public ResponseEntity<Object> handleDomainException(OrcamentoNaoAtendeRequisitosException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("orcamento-nao-atende-requisitos", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+	
 	@ExceptionHandler({DomainException.class})
     public ResponseEntity<Object> handleDomainException(DomainException ex, WebRequest request){
         String mensagemUsuario = messageSource.getMessage("dominio-invalido", null, LocaleContextHolder.getLocale());

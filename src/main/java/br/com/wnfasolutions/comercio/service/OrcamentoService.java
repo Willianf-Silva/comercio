@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.wnfasolutions.comercio.dto.request.OrcamentoRequestDTO;
 import br.com.wnfasolutions.comercio.dto.response.OrcamentoResponseDTO;
+import br.com.wnfasolutions.comercio.entity.OrcamentoDO;
 import br.com.wnfasolutions.comercio.repository.filtro.OrcamentoFiltro;
 
 public interface OrcamentoService {
@@ -16,5 +17,9 @@ public interface OrcamentoService {
 	Page<OrcamentoResponseDTO> buscarOrcamentos(OrcamentoFiltro orcamentoFiltro, Pageable pageable);
 
 	OrcamentoResponseDTO reprovarOrcamento(Long id) throws Exception;
+
+	OrcamentoDO buscarOrcamentoEmAnaliseById(Long idOrcamento) throws Exception;
+
+	OrcamentoResponseDTO aprovarOrcamento(Long id) throws Exception;
 
 }

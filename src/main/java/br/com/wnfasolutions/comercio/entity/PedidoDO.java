@@ -47,10 +47,6 @@ public class PedidoDO {
 	private OrcamentoDO orcamento;
 
 	
-	public void aguardandoEnvioProducao() {
-		situacaoPedido.aguardandoEnvioProducao(this);
-	}
-	
 	public void emProducao() {
 		situacaoPedido.emProducao(this);
 	}

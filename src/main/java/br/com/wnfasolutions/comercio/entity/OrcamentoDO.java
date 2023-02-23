@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -72,5 +73,11 @@ public class OrcamentoDO {
 	}
 	public void finalizar() {
 		situacaoOrcamento.finalizar(this);
+	}
+	public boolean isEmAnalise() {
+		SituacaoOrcamentoEmAnalise situacaoOrcamento = new SituacaoOrcamentoEmAnalise();
+		DiscriminatorValue emAnaliseValue = situacaoOrcamento.getClass().getAnnotation(DiscriminatorValue.class);
+		DiscriminatorValue situacaoOrcamentoValue = this.situacaoOrcamento.getClass().getAnnotation(DiscriminatorValue.class);
+		return situacaoOrcamentoValue.equals(emAnaliseValue);
 	}
 }
