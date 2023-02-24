@@ -22,6 +22,7 @@ import org.springframework.util.ObjectUtils;
 
 import br.com.wnfasolutions.comercio.entity.ClienteDO;
 import br.com.wnfasolutions.comercio.entity.OrcamentoDO;
+import br.com.wnfasolutions.comercio.entity.SituacaoOrcamentoDO;
 import br.com.wnfasolutions.comercio.entity.UsuarioDO;
 import br.com.wnfasolutions.comercio.repository.custom.OrcamentoRepositoryCustom;
 import br.com.wnfasolutions.comercio.repository.filtro.OrcamentoFiltro;
@@ -78,6 +79,11 @@ public class OrcamentoRepositoryCustomImpl implements OrcamentoRepositoryCustom 
 						LocalDateTime.of(orcamentoFiltro.getDataInclusaoFim(), LocalTime.MAX)
 						));				
 			}
+		}
+		if (!ObjectUtils.isEmpty(orcamentoFiltro.getSituacaoOrcamentoFiltro())) {
+			Class<?> situacaoOrcamento = orcamentoFiltro.getSituacaoOrcamentoFiltro().convertToClass();
+			Join<OrcamentoDO, SituacaoOrcamentoDO> join = root.join("situacaoOrcamento");
+			predicates.add(builder.equal(join.type(), situacaoOrcamento));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
