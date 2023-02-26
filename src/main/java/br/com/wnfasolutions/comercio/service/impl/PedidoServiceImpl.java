@@ -1,11 +1,16 @@
 package br.com.wnfasolutions.comercio.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.PedidoRequestDTO;
@@ -16,6 +21,7 @@ import br.com.wnfasolutions.comercio.entity.PedidoDO;
 import br.com.wnfasolutions.comercio.exception.ResourceNotFoundException;
 import br.com.wnfasolutions.comercio.mapper.PedidoMapper;
 import br.com.wnfasolutions.comercio.repository.PedidoRepository;
+import br.com.wnfasolutions.comercio.repository.filtro.PedidoFiltro;
 import br.com.wnfasolutions.comercio.service.OrcamentoService;
 import br.com.wnfasolutions.comercio.service.PedidoService;
 
@@ -42,6 +48,19 @@ public class PedidoServiceImpl implements PedidoService {
 		PedidoDO pedidoSaved = pedidoRepository.save(pedidoDO);
 		
 		return convertToResponse(pedidoSaved);
+	}
+
+	@Override
+	public Page<PedidoResponseDTO> buscarPedidos(PedidoFiltro pedidoFiltro, Pageable pageable) throws Exception {
+
+		Page<PedidoDO> pedidosDO = pedidoRepository.buscarPedidos(pedidoFiltro, pageable);
+		
+		List<PedidoResponseDTO> response = 
+				pedidosDO.stream()
+				.map(this::convertToResponse)
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(response, pageable, pedidosDO.getTotalElements());
 	}
 
 	@Override
