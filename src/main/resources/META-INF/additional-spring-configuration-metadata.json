@@ -1,0 +1,47 @@
+{"properties": [
+  {
+    "name": "system-custom-property.security.enable-https",
+    "type": "java.lang.Boolean",
+    "description": "Habilita segurança HTTPS para o cookie"
+  },
+  {
+    "name": "system-custom-property.security.secret-key-client-mobile",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação mobile para autenticação no sistema"
+  },
+  {
+    "name": "system-custom-property.security.client-mobile",
+    "type": "java.lang.String",
+    "description": "Nome da aplicação mobile para autenticação no sistema"
+  },
+  {
+    "name": "system-custom-property.security.secret-key-client-web",
+    "type": "java.lang.String",
+    "description": "Nome da aplicação web para autenticação no sistema"
+  },
+  {
+    "name": "system-custom-property.security.client-web",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação web para autenticação no sistema"
+  },
+  {
+    "name": "system-custom-property.security.secret-key-app",
+    "type": "java.lang.String",
+    "description": "Segredo da aplicação para geração do token JWT"
+  },
+  {
+    "name": "system-custom-property.security.access-token-validity",
+    "type": "java.lang.Integer",
+    "description": "Validade do access token"
+  },
+  {
+    "name": "system-custom-property.security.refresh-token-validity",
+    "type": "java.lang.Integer",
+    "description": "Validade do refresh token"
+  },
+  {
+    "name": "system-custom-property.security.origins-allowed",
+    "type": "java.lang.String",
+    "description": "String com todos os endereços das aplicaçoes web que utiliza. Necessário separar por virgula, sem espaço"
+  }
+]}
