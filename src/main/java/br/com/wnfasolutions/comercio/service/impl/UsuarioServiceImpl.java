@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.wnfasolutions.comercio.dto.request.UsuarioRequestDTO;
@@ -37,12 +38,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public UsuarioResponseDTO cadastrarUsuario(UsuarioRequestDTO usuarioRequestDTO) throws Exception {
 		Set<RoleDO> roles = getRoles(usuarioRequestDTO);
 		UsuarioDO usuarioDO = convertToModel(usuarioRequestDTO);
 		usuarioDO.setSituacao(Situacao.ATIVO);
 		usuarioDO.setRoles(roles);
+		usuarioDO.setPassword(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
 		UsuarioDO usuarioSalvo = usuarioRepository.save(usuarioDO);
 		return convertToResponse(usuarioSalvo);
 	}
@@ -50,6 +55,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) throws Exception {
 		UsuarioDO usuarioDO = verificarSeExiste(id);
+		usuarioDO.setPassword(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
 		usuarioDO.setRoles(getRoles(usuarioRequestDTO));
 		BeanUtils.copyProperties(usuarioRequestDTO, usuarioDO, "id");
 		UsuarioDO usuarioSalvo = usuarioRepository.save(usuarioDO);
