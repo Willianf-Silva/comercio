@@ -29,7 +29,8 @@ public class DataLoader implements ApplicationRunner {
 			roleRepository.save(new RoleDO(1L, "ROLE_MASTER"));
 			roleRepository.save(new RoleDO(2L, "ROLE_ADMIN"));
 			roleRepository.save(new RoleDO(3L, "ROLE_OPERATOR"));	
-			roleRepository.save(new RoleDO(4L, "ROLE_READING"));
+			roleRepository.save(new RoleDO(4L, "ROLE_READING"));	
+			roleRepository.save(new RoleDO(5L, "ROLE_FINANCIAL"));
 			log.info("Roles incluídas com sucesso!");
 		}
 		log.info("Roles cadastradas");
