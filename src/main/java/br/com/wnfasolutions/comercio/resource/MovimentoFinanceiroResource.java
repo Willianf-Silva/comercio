@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class MovimentoFinanceiroResource extends ResourceBase<MovimentoFinanceir
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('write')")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> cadastrarMovimentoFinanceiro(@RequestBody @Valid MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO,
 			HttpServletResponse resp) throws Exception {
 		MovimentoFinanceiroResponseDTO response = movimentoFinanceiroService.cadastrarMovimentoFinanceiro(movimentoFinanceiroRequestDTO);
@@ -46,6 +48,7 @@ public class MovimentoFinanceiroResource extends ResourceBase<MovimentoFinanceir
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('write')")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> atualizarMovimentoFinanceiro(@PathVariable Long id,
 			@RequestBody @Valid MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception {
 
@@ -54,30 +57,35 @@ public class MovimentoFinanceiroResource extends ResourceBase<MovimentoFinanceir
 	}
 	
 	@PutMapping("/pagamentos")
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> pagarMovimentos(@RequestBody List<MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception{
 		movimentoFinanceiroService.pagarMovimentos(movimentosFinanceiroPagamentoDTO);
 		return responderSucessoSemItem();
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('read')")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		MovimentoFinanceiroResponseDTO response = movimentoFinanceiroService.buscarPorId(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<MovimentoFinanceiroResponseDTO>> buscarMovimentosFinanceiro(MovimentoFinanceiroFiltro movimentoFinanceiroFiltro, Pageable pageable){
 		Page<MovimentoFinanceiroResponseDTO> response = movimentoFinanceiroService.buscarMovimentosFinanceiro(movimentoFinanceiroFiltro, pageable);
 		return responderListaDeItensPaginada(response );
 	}
 	
 	@PatchMapping("/inativar/{id}")
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('write')")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> inativarMovimentoFinanceiro(@PathVariable Long id) throws Exception {
 		movimentoFinanceiroService.inativarMovimentoFinanceiro(id);
 		return responderSucesso();
 	}
 	
 	@PatchMapping("/ativar/{id}")
+	@PreAuthorize("hasRole('ROLE_FINANCIAL') and #oauth2.hasScope('write')")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> ativarMovimentoFinanceiro(@PathVariable Long id) throws Exception {
 		movimentoFinanceiroService.ativarMovimentoFinanceiro(id);
 		return responderSucesso();

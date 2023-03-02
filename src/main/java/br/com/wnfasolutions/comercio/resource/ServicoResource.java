@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class ServicoResource extends ResourceBase<ServicoResponseDTO> implements
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<ServicoResponseDTO> cadastrarServico(@RequestBody @Valid ServicoRequestDTO servicoRequestDTO,
 			HttpServletResponse resp) throws Exception {
 		ServicoResponseDTO response = servicoService.cadastrarServico(servicoRequestDTO);
@@ -43,6 +45,7 @@ public class ServicoResource extends ResourceBase<ServicoResponseDTO> implements
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<ServicoResponseDTO> atualizarServico(@PathVariable Long id,
 			@RequestBody @Valid ServicoRequestDTO servicoRequestDTO) throws Exception {
 
@@ -51,24 +54,28 @@ public class ServicoResource extends ResourceBase<ServicoResponseDTO> implements
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<ServicoResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		ServicoResponseDTO response = servicoService.buscarPorId(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<ServicoResponseDTO>> buscarServicos(ServicoFiltro servicoFiltro, Pageable pageable){
 		Page<ServicoResponseDTO> response = servicoService.buscarServicos(servicoFiltro, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 	
 	@PatchMapping("/inativar/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<ServicoResponseDTO> inativarServico(@PathVariable Long id) throws Exception {
 		servicoService.inativarServico(id);
 		return responderSucesso();
 	}
 	
 	@PatchMapping("/ativar/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<ServicoResponseDTO> ativarServico(@PathVariable Long id) throws Exception {
 		servicoService.ativarServico(id);
 		return responderSucesso();

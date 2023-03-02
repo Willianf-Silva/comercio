@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class PrestadorResource extends ResourceBase<PrestadorResponseDTO> implem
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<PrestadorResponseDTO> cadastrarPrestador(@RequestBody @Valid PrestadorRequestDTO prestadorRequestDTO,
 			HttpServletResponse resp) throws Exception {
 		PrestadorResponseDTO response = prestadorService.cadastrarPrestador(prestadorRequestDTO);
@@ -43,6 +45,7 @@ public class PrestadorResource extends ResourceBase<PrestadorResponseDTO> implem
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<PrestadorResponseDTO> atualizarPrestador(@PathVariable Long id,
 			@RequestBody @Valid PrestadorRequestDTO prestadorRequestDTO) throws Exception {
 
@@ -51,24 +54,28 @@ public class PrestadorResource extends ResourceBase<PrestadorResponseDTO> implem
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<PrestadorResponseDTO> buscarPorId(@PathVariable Long id) throws Exception {
 		PrestadorResponseDTO response = prestadorService.buscarPorId(id);
 		return responderSucessoComItem(response);
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<PrestadorResponseDTO>> buscarPrestadores(PrestadorFiltro prestadorFiltro, Pageable pageable){
 		Page<PrestadorResponseDTO> response = prestadorService.buscarPrestadores(prestadorFiltro, pageable);
 		return responderListaDeItensPaginada(response );
 	}
 	
 	@PatchMapping("/inativar/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<PrestadorResponseDTO> inativarPrestador(@PathVariable Long id) throws Exception {
 		prestadorService.inativarPrestador(id);
 		return responderSucesso();
 	}
 	
 	@PatchMapping("/ativar/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<PrestadorResponseDTO> ativarPrestador(@PathVariable Long id) throws Exception {
 		prestadorService.ativarPrestador(id);
 		return responderSucesso();

@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class OrcamentoResource extends ResourceBase<OrcamentoResponseDTO> implem
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<OrcamentoResponseDTO> cadastrarOrcamento(
 			@RequestBody @Valid OrcamentoRequestDTO orcamentoRequestDTO, HttpServletResponse resp) throws Exception {
 		OrcamentoResponseDTO response = orcamentoService.cadastrarOrcamento(orcamentoRequestDTO);
@@ -43,6 +45,7 @@ public class OrcamentoResource extends ResourceBase<OrcamentoResponseDTO> implem
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<OrcamentoResponseDTO> atualizarOrcamento(@PathVariable Long id,
 			@RequestBody @Valid OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
 		OrcamentoResponseDTO response = orcamentoService.atualizarOrcamento(id, orcamentoRequestDTO);
@@ -50,12 +53,14 @@ public class OrcamentoResource extends ResourceBase<OrcamentoResponseDTO> implem
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<OrcamentoResponseDTO>> buscarOrcamentos(OrcamentoFiltro orcamentoFiltro, Pageable pageable){
 		Page<OrcamentoResponseDTO> response = orcamentoService.buscarOrcamentos(orcamentoFiltro, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 	
 	@PatchMapping("/reprovar/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> reprovarOrcamento(@PathVariable Long id) throws Exception {
 		orcamentoService.reprovarOrcamento(id);
 		return responderSucessoSemItem();

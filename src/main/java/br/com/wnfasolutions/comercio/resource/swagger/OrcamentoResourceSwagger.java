@@ -20,11 +20,13 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface OrcamentoResourceSwagger {
 
 	@ApiOperation("Incluir um novo orçamento.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<OrcamentoResponseDTO> cadastrarOrcamento(
 			@ApiParam("Informações do orçamento que será incluído.") OrcamentoRequestDTO orcamentoRequestDTO,
 			HttpServletResponse resp) throws Exception;
 
 	@ApiOperation("Altera o status do orçamento existente e inclui um novo orçamento.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<OrcamentoResponseDTO> atualizarOrcamento(
 			@ApiParam(value = "ID do orçamento", example = "01") Long id,
 			@ApiParam("Dados do orçamento que será alterado.") OrcamentoRequestDTO orcamentoRequestDTO)
@@ -39,11 +41,13 @@ public interface OrcamentoResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar orcamentos com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<OrcamentoResponseDTO>> buscarOrcamentos(
 			@ApiParam("Opções de filtro para consulta") OrcamentoFiltro orcamentoFiltro, 
 			@ApiIgnore Pageable pageable);
 	
 	@ApiOperation("Reprova um orçamento através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> reprovarOrcamento(
 			@ApiParam(value = "ID do orçamento", example = "01") Long id) throws Exception;
 }

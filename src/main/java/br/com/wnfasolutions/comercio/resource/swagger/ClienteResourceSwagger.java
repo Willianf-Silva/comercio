@@ -20,16 +20,19 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface ClienteResourceSwagger {
 
 	@ApiOperation("Incluir um novo cliente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ClienteResponseDTO> cadastrarCliente(
 			@ApiParam("Informações do clientes que será incluído.") ClienteRequestDTO clienteRequestDTO,
 			HttpServletResponse resp) throws Exception;
 	
 	@ApiOperation("Atualizar um cliente existente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ClienteResponseDTO> atualizarCliente(
 			@ApiParam(value = "ID do cliente", example = "01") Long id,
 			@ApiParam("Informações do clientes que será incluído.") ClienteRequestDTO clienteRequestDTO) throws Exception;
 	
 	@ApiOperation("Buscar um cliente através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ClienteResponseDTO> buscarPorId(
 			@ApiParam(value = "ID do cliente", example = "01") Long id) throws Exception;
 	
@@ -42,15 +45,18 @@ public interface ClienteResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar clientes com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<ClienteResponseDTO>> buscarClientes(
 			@ApiParam("Opções de filtro para consulta") ClienteFiltro clienteFiltro, 
 			@ApiIgnore Pageable pageable);
 	
 	@ApiOperation("Inativar um cliente através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ClienteResponseDTO> inativarCliente(
 			@ApiParam(value = "ID do cliente", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Ativar um cliente através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ClienteResponseDTO> ativarCliente(
 			@ApiParam(value = "ID do cliente", example = "01") Long id) throws Exception;
 }

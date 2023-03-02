@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class PedidoResource extends ResourceBase<PedidoResponseDTO> implements P
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<PedidoResponseDTO> cadastrarOrcamento(
 			@RequestBody @Valid PedidoRequestDTO pedidoRequestDTO, HttpServletResponse resp) throws Exception {
 		PedidoResponseDTO response = pedidoService.cadastrarPedido(pedidoRequestDTO);
@@ -42,24 +44,28 @@ public class PedidoResource extends ResourceBase<PedidoResponseDTO> implements P
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_READING') and #oauth2.hasScope('read')")
 	public ResponseEntity<Page<PedidoResponseDTO>> buscarPedidos(PedidoFiltro pedidoFiltro, Pageable pageable) throws Exception {
 		Page<PedidoResponseDTO> response = pedidoService.buscarPedidos(pedidoFiltro, pageable);
 		return responderListaDeItensPaginada(response);
 	}
 	
 	@PatchMapping("/producao/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> enviarPedidoProducao(@PathVariable Long id) throws Exception {
 		pedidoService.enviarPedidoProducao(id);
 		return responderSucessoSemItem();
 	}
 	
 	@PatchMapping("/pronto/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> pedidoAguardandoRetirada(@PathVariable Long id) throws Exception {
 		pedidoService.pedidoAguardandoRetirada(id);
 		return responderSucessoSemItem();
 	}
 	
 	@PatchMapping("/entregue/{id}")
+	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> pedidoEntregue(@PathVariable Long id) throws Exception {
 		pedidoService.pedidoEntregue(id);
 		return responderSucessoSemItem();

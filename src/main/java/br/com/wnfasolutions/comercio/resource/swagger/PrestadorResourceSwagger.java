@@ -20,16 +20,19 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface PrestadorResourceSwagger {
 
 	@ApiOperation("Incluir um novo prestador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PrestadorResponseDTO> cadastrarPrestador(
 			@ApiParam("Informações do prestadors que será incluído.") PrestadorRequestDTO prestadorRequestDTO,
 			HttpServletResponse resp) throws Exception;
 	
 	@ApiOperation("Atualizar um prestador existente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PrestadorResponseDTO> atualizarPrestador(
 			@ApiParam(value = "ID do prestador", example = "01") Long id,
 			@ApiParam("Informações do prestadors que será incluído.") PrestadorRequestDTO prestadorRequestDTO) throws Exception;
 	
 	@ApiOperation("Buscar um prestador através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PrestadorResponseDTO> buscarPorId(
 			@ApiParam(value = "ID do prestador", example = "01") Long id) throws Exception;
 	
@@ -42,15 +45,18 @@ public interface PrestadorResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar prestadores com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<PrestadorResponseDTO>> buscarPrestadores(
 			@ApiParam("Opções de filtro para consulta") PrestadorFiltro prestadorFiltro, 
 			@ApiIgnore Pageable pageable);
 	
 	@ApiOperation("Inativar um prestador através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PrestadorResponseDTO> inativarPrestador(
 			@ApiParam(value = "ID do prestador", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Ativar um prestador através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PrestadorResponseDTO> ativarPrestador(
 			@ApiParam(value = "ID do prestador", example = "01") Long id) throws Exception;
 }

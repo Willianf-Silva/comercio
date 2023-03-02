@@ -23,20 +23,24 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface MovimentoFinanceiroResourceSwagger {
 
 	@ApiOperation("Incluir um novo movimento financeiro.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> cadastrarMovimentoFinanceiro(
 			@ApiParam("Informações do movimentos financeiro que será incluído.") MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO,
 			HttpServletResponse resp) throws Exception;
 	
 	@ApiOperation("Atualizar um movimento financeiro existente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> atualizarMovimentoFinanceiro(
 			@ApiParam(value = "ID do movimento financeiro", example = "01") Long id,
 			@ApiParam("Informações do movimento financeiro que será incluído.") MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception;
 	
 	@ApiOperation("Atualiza as informações de pagamento para uma lista de movimentos financeiro existente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> pagarMovimentos(
 			@ApiParam(value = "Lista de movimentos financeiro", example = "01") List<MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception;
 	
 	@ApiOperation("Buscar um movimento financeiro através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> buscarPorId(
 			@ApiParam(value = "ID do movimento financeiro", example = "01") Long id) throws Exception;
 	
@@ -49,15 +53,18 @@ public interface MovimentoFinanceiroResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar movimentos financeiro com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<MovimentoFinanceiroResponseDTO>> buscarMovimentosFinanceiro(
 			@ApiParam("Opções de filtro para consulta") MovimentoFinanceiroFiltro movimentoFinanceiroFiltro, 
 			@ApiIgnore Pageable pageable);
 	
 	@ApiOperation("Inativar um movimento financeiro através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> inativarMovimentoFinanceiro(
 			@ApiParam(value = "ID do movimento financeiro", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Ativar um movimento financeiro através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<MovimentoFinanceiroResponseDTO> ativarMovimentoFinanceiro(
 			@ApiParam(value = "ID do movimento financeiro", example = "01") Long id) throws Exception;
 }

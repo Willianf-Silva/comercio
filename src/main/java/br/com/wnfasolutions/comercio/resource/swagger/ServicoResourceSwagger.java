@@ -20,16 +20,19 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface ServicoResourceSwagger {
 
 	@ApiOperation("Incluir um novo servico.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ServicoResponseDTO> cadastrarServico(
 			@ApiParam("Informações do servicos que será incluído.") ServicoRequestDTO servicoRequestDTO,
 			HttpServletResponse resp) throws Exception;
 	
 	@ApiOperation("Atualizar um servico existente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ServicoResponseDTO> atualizarServico(
 			@ApiParam(value = "ID do servico", example = "01") Long id,
 			@ApiParam("Informações do servicos que será incluído.") ServicoRequestDTO servicoRequestDTO) throws Exception;
 	
 	@ApiOperation("Buscar um servico através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ServicoResponseDTO> buscarPorId(
 			@ApiParam(value = "ID do servico", example = "01") Long id) throws Exception;
 	
@@ -42,15 +45,18 @@ public interface ServicoResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar servicos com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<ServicoResponseDTO>> buscarServicos(
 			@ApiParam("Opções de filtro para consulta") ServicoFiltro servicoFiltro, 
 			@ApiIgnore Pageable pageable);
 	
 	@ApiOperation("Inativar um servico através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ServicoResponseDTO> inativarServico(
 			@ApiParam(value = "ID do servico", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Ativar um servico através do identificador.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<ServicoResponseDTO> ativarServico(
 			@ApiParam(value = "ID do servico", example = "01") Long id) throws Exception;
 }

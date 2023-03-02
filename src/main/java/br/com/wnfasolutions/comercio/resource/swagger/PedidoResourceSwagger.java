@@ -20,6 +20,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface PedidoResourceSwagger {
 
 	@ApiOperation("Incluir um novo pedido.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<PedidoResponseDTO> cadastrarOrcamento(
 			@ApiParam("Informações do pedido que será incluído.") PedidoRequestDTO pedidoRequestDTO, 
 			HttpServletResponse resp) throws Exception;
@@ -33,19 +34,23 @@ public interface PedidoResourceSwagger {
                 value = "Ordenação dos registros")
 	})
 	@ApiOperation("Buscar pedidos com filtro")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<Page<PedidoResponseDTO>> buscarPedidos(
 			@ApiParam("Opções de filtro para consulta") PedidoFiltro pedidoFiltro, 
 			@ApiIgnore Pageable pageable) throws Exception;
 	
 	@ApiOperation("Altera a situação do pedido para Aguardando Envio para Produção.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> enviarPedidoProducao(
 			@ApiParam(value = "ID do pedido", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Altera a situação do pedido para Aguardando Retirada Cliente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> pedidoAguardandoRetirada(
 			@ApiParam(value = "ID do pedido", example = "01") Long id) throws Exception;
 	
 	@ApiOperation("Altera a situação do pedido para Entregue ao Cliente.")
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<?> pedidoEntregue(
 			@ApiParam(value = "ID do pedido", example = "01") Long id) throws Exception;
 }
