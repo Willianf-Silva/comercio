@@ -36,7 +36,7 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 	private ApplicationEventPublisher publicarEvento;
 
 	@PostMapping
-	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")
 	public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@RequestBody @Valid UsuarioRequestDTO usuarioRequestDTO,
 			HttpServletResponse resp) throws Exception {
 		UsuarioResponseDTO response = usuarioService.cadastrarUsuario(usuarioRequestDTO);
@@ -45,7 +45,7 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")
 	public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@PathVariable Long id,
 			@RequestBody @Valid UsuarioRequestDTO usuarioRequestDTO) throws Exception {
 
@@ -68,14 +68,14 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 	}
 	
 	@PatchMapping("/inativar/{id}")
-	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")
 	public ResponseEntity<UsuarioResponseDTO> inativarUsuario(@PathVariable Long id) throws Exception {
 		usuarioService.inativarUsuario(id);
 		return responderSucesso();
 	}
 	
 	@PatchMapping("/ativar/{id}")
-	@PreAuthorize("hasRole('ROLE_OPERATOR') and #oauth2.hasScope('write')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') and #oauth2.hasScope('write')")
 	public ResponseEntity<UsuarioResponseDTO> ativarUsuario(@PathVariable Long id) throws Exception {
 		usuarioService.ativarUsuario(id);
 		return responderSucesso();
