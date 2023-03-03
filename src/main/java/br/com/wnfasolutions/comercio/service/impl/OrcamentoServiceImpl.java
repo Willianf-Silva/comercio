@@ -53,6 +53,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 	}
 
 	@Override
+	@Transactional
 	public OrcamentoResponseDTO atualizarOrcamento(Long id, OrcamentoRequestDTO orcamentoRequestDTO) throws Exception {
 		// TODO Implementar uma solução melhor para a atualização de orçamento
 		

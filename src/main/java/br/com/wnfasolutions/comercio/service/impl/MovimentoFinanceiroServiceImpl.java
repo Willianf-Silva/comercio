@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -37,6 +38,7 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 	private MovimentoFinanceiroRepository movimentoFinanceiroRepository;
 
 	@Override
+	@Transactional
 	public MovimentoFinanceiroResponseDTO cadastrarMovimentoFinanceiro(
 			MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = convertToModel(movimentoFinanceiroRequestDTO);
@@ -49,6 +51,7 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 	}
 
 	@Override
+	@Transactional
 	public MovimentoFinanceiroResponseDTO atualizarMovimentoFinanceiro(Long id,
 			MovimentoFinanceiroRequestDTO movimentoFinanceiroRequestDTO) throws Exception {
 		MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(id);
@@ -59,6 +62,7 @@ public class MovimentoFinanceiroServiceImpl implements MovimentoFinanceiroServic
 	}
 
 	@Override
+	@Transactional
 	public void pagarMovimentos(List<@Valid MovimentosFinanceiroPagamentoDTO> movimentosFinanceiroPagamentoDTO) throws Exception {
 		for (MovimentosFinanceiroPagamentoDTO movimentoPagarDTO : movimentosFinanceiroPagamentoDTO) {
 			MovimentoFinanceiroDO movimentoFinanceiroDO = verificarSeExiste(movimentoPagarDTO.getIdMovimentoFinanceiro());
