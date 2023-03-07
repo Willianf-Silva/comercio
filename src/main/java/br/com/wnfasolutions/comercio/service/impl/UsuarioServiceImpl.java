@@ -55,9 +55,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) throws Exception {
 		UsuarioDO usuarioDO = verificarSeExiste(id);
-		usuarioDO.setPassword(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
 		usuarioDO.setRoles(getRoles(usuarioRequestDTO));
 		BeanUtils.copyProperties(usuarioRequestDTO, usuarioDO, "id");
+		usuarioDO.setPassword(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
 		UsuarioDO usuarioSalvo = usuarioRepository.save(usuarioDO);
 		return convertToResponse(usuarioSalvo);
 	}
@@ -96,6 +96,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 		UsuarioDO usuarioDO = verificarSeExiste(id);
 		verificarSeAtivo(usuarioDO);
 		return usuarioDO;
+	}
+
+	@Override
+	public UsuarioResponseDTO findByUsername(String username) throws Exception {
+		Optional<UsuarioDO> usuarioOptional = usuarioRepository.findByUsername(username);
+		if (usuarioOptional.isEmpty()) {
+			throw new ResourceNotFoundException();
+		}
+		return convertToResponse(usuarioOptional.get());
 	}
 
 	private void verificarSeAtivo(UsuarioDO usuarioDO) throws Exception {
