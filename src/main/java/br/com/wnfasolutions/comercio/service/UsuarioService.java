@@ -24,4 +24,6 @@ public interface UsuarioService {
 	
 	UsuarioDO buscarUsuarioAtivoPorId(Long id) throws Exception;
 
+	UsuarioResponseDTO findByUsername(String username) throws Exception;
+
 }

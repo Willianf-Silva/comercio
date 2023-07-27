@@ -80,4 +80,18 @@ public class UsuarioResource extends ResourceBase<UsuarioResponseDTO> implements
 		usuarioService.ativarUsuario(id);
 		return responderSucesso();
 	}
+
+	@GetMapping("/login/{username}")
+	@PreAuthorize(""
+			+ "hasRole('ROLE_MASTER') "
+			+ "or hasRole('ROLE_ADMIN') "
+			+ "or hasRole('ROLE_OPERATOR') "
+			+ "or hasRole('ROLE_READING') "
+			+ "or hasRole('ROLE_FINANCIAL') "
+			+ "and "
+			+ "#oauth2.hasScope('read')")
+	public ResponseEntity<UsuarioResponseDTO> findByUsername(@PathVariable String username) throws Exception {
+		UsuarioResponseDTO response = usuarioService.findByUsername(username);
+		return responderSucessoComItem(response);
+	}
 }

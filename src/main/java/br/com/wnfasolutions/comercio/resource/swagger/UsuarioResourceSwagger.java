@@ -59,4 +59,9 @@ public interface UsuarioResourceSwagger {
 	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
 	public ResponseEntity<UsuarioResponseDTO> ativarUsuario(
 			@ApiParam(value = "ID do usuário", example = "01") Long id) throws Exception;
+	
+	@ApiImplicitParam(name = "Authorization", value = "Bearer Token", required = true, allowEmptyValue = false, paramType = "header", example = "Bearer access_token")
+	@ApiOperation("Busca um usuário cadastrado utilizando o username")
+	public ResponseEntity<UsuarioResponseDTO> findByUsername(
+			@ApiParam(value = "Username utilizado para autenticação no sistema", example = "admin") String username) throws Exception;
 }
